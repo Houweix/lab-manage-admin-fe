@@ -10,14 +10,14 @@
     </Table>
 
     <!-- 编辑modal -->
-    <Modal v-model="modal1" title="Common Modal dialog box title" @on-ok="ok" @on-cancel="cancel">
+    <Modal v-model="editModal" title="Common Modal dialog box title" @on-ok="ok" @on-cancel="cancel">
       <p>Content of dialog</p>
       <p>Content of dialog</p>
       <p>Content of dialog</p>
     </Modal>
 
     <!-- 添加modal -->
-    <Modal v-model="modal1" title="Common Modal dialog box title" @on-ok="ok" @on-cancel="cancel">
+    <Modal v-model="addModal" title="Common Modal dialog box title" @on-ok="ok" @on-cancel="cancel">
       <p>Content of dialog</p>
       <p>Content of dialog</p>
       <p>Content of dialog</p>

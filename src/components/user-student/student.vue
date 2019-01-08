@@ -142,9 +142,6 @@ export default {
           this.$Message.success('修改成功!');
           this.editModal = false;
         } else {
-          // setTimeout(() => {
-          //   this.loading1 = true;
-          // }, 0);
           this.$Message.error({content: '请检查后重新提交!', duration: 4});
         }
       });

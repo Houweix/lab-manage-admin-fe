@@ -78,12 +78,12 @@ export default {
             });
           }
 
-          console.log(`title`);
-          console.log(this.studentTitle);
-          console.log(`data`);
-          console.log(this.studentData);
+          // console.log(`title`);
+          // console.log(this.studentTitle);
+          // console.log(`data`);
+          // console.log(this.studentData);
 
-          console.log(this.newStudentTitle);
+          // console.log(this.newStudentTitle);
         }
       })
     }
@@ -95,22 +95,17 @@ export default {
   computed: {
     //  结尾增加操作列
     newStudentTitle () {
-      const isAction = this.studentTitle.find((elem) => {
-        return elem.title === 'action';
-      });
-
       const arr = [];
-
       const newArr = arr.concat(this.studentTitle);
       newArr.push({
         title: '操作',
         slot: 'action',
-        width: 150,
+        width: 170,
         align: 'center',
         fixed: 'right'
       });
 
-      return isAction ? arr.concat(this.studentTitle) : newArr;
+      return Array.from(this.studentTitle).length === 0 ? arr.concat(Array.from(this.studentTitle)) : newArr;
     }
   }
 }

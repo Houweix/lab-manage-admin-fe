@@ -29,7 +29,7 @@ export default {
             desc: false
           });
         } else {
-           this.$Notice.error({
+          this.$Notice.error({
             title: "添加失败",
             desc: false
           });

@@ -5,9 +5,9 @@
 </template>
 
 <script>
-  export default {
-    name: 'grade'
-  }
+export default {
+  name: 'grade'
+}
 </script>
 
 <style scoped lang="less">

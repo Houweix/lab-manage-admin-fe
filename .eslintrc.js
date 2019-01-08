@@ -19,7 +19,7 @@ module.exports = {
     'space-before-function-paren': [0, 'always'],
     "object-curly-spacing": 'off',
     "quotes": 'off',
-    "x-invalid-end-tag": 'off',
+    "x-invalid-end-tag": 'off'
     // "eslint-disable-next-line": 'off'
   },
   parserOptions: {

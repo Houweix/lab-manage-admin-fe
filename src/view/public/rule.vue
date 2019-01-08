@@ -5,9 +5,9 @@
 </template>
 
 <script>
-  export default {
-    name: 'rule'
-  }
+export default {
+  name: 'rule'
+}
 </script>
 
 <style scoped lang="less">

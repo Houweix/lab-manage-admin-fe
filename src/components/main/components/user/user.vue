@@ -58,14 +58,14 @@ export default {
     },
     handleClick (name) {
       switch (name) {
-        // 退出登录
-        case "logout":
-          this.logout();
-          break;
+      // 退出登录
+      case "logout":
+        this.logout();
+        break;
         // 进入个人中心
-        case "mine":
-          this.enterMine();
-          break;
+      case "mine":
+        this.enterMine();
+        break;
       }
     }
   },

@@ -149,7 +149,7 @@ export default {
               desc: false
             });
 
-             this.$emit('upSuccess');
+            this.$emit('upSuccess');
           } else {
             // debugger
             this.$Notice.error({

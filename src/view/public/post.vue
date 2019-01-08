@@ -5,9 +5,9 @@
 </template>
 
 <script>
-  export default {
-    name: 'post'
-  }
+export default {
+  name: 'post'
+}
 </script>
 
 <style scoped lang="less">

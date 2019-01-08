@@ -148,6 +148,8 @@ export default {
               title: "成功",
               desc: false
             });
+
+             this.$emit('upSuccess');
           } else {
             // debugger
             this.$Notice.error({

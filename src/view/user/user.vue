@@ -1,9 +1,8 @@
 <template>
   <Card :bordered="false" shadow>
     <p slot="title" style="font-size: 20px">{{$route.meta.title}}</p>
-
     <div class="upload">
-      <upload-excel @receiveSelect="handleChangeRole"></upload-excel>
+      <upload-excel @receiveSelect="handleChangeRole" @upSuccess="handleUpSuccess"></upload-excel>
     </div>
     <Tabs :value="activeTab" type="card" style="margin-top: 20px">
       <TabPane label="学生管理" name="student">
@@ -59,24 +58,28 @@ export default {
     //  收到选择的角色
     handleChangeRole (role) {
       this.activeTab = role;
+    },
+    //  上传成功的回调
+    handleUpSuccess () {
+      this.getIndex();
+    },
+    //  获取首页信息
+    getIndex () {
+      adminModel.getAllData({ role: 'student' }).then((res) => {
+        if (res.retcode === 0) {
+          this.studentData = res.data;
+          if (res.data[0]) {
+            this.studentTitle = Object.keys(res.data[0]).map(item => {
+              return { title: item, key: item };
+            });
+          }
+        }
+      })
     }
-
   },
   mounted () {
-    console.log(123);
     // 获取表格信息
-    adminModel.getAllData({ role: 'student' }).then((res) => {
-      if (res.retcode === 0) {
-        // todo 表格格式
-        this.studentData = res.data;
-
-        this.studentTitle = Object.keys(res.data[0]).map(item => {
-          return { title: item, key: item };
-        });
-
-        console.log(this.studentTitle);
-      }
-    })
+    this.getIndex();
   }
 };
 </script>

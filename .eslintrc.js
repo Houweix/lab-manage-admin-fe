@@ -14,7 +14,7 @@ module.exports = {
     }],
     'no-undef': 'off',
     'camelcase': 'off',
-    'indent': 'off',
+    'indent': [2, 2],
     'semi': 'off',
     'space-before-function-paren': [0, 'always'],
     "object-curly-spacing": 'off',

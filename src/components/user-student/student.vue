@@ -1,7 +1,10 @@
 <template>
   <div class="admin-container">
+    <Input v-model="searchInput" prefix="ios-contact" placeholder="请输入名字" style="width: auto"/>
+    <Button type="primary" icon="ios-search" style="margin-left: 10px;" @click="handleSearch">搜索</Button>
+
     <!-- 主体显示表格 -->
-    <Table :columns="columns" :data="tableData">
+    <Table :columns="columns" :data="transStudentData" style="margin-top: 10px;">
       <!-- 插槽，显示每行的编辑功能 -->
       <template slot-scope="{ row }" slot="action">
         <Button type="primary" size="default" style="margin-right: 5px" @click="studentEdit(row)">编辑</Button>
@@ -15,23 +18,24 @@
       title="编辑学生信息"
       @on-visible-change="handleOpenEdit"
       @on-ok="handleEdit"
-      :loading = "loading1"
+      :loading="loading1"
     >
       <Form :model="editForm" :label-width="80" :rules="editRule" ref="editForm">
         <FormItem label="姓名" prop="name">
-          <i-input v-model="editForm.name" style="width: 150px;"></i-input><span style="margin-left: 10px;">长度2~10位</span>
+          <i-input v-model="editForm.name" style="width: 150px;"></i-input>
+          <span style="margin-left: 10px;">长度2~10位</span>
         </FormItem>
+
+        <FormItem label="Select">
+          <Select v-model="editForm.sex" style="width: 150px;">
+            <Option value="m">男</Option>
+            <Option value="f">女</Option>
+          </Select>
+        </FormItem>
+
         <FormItem label="新密码">
           <i-input v-model="editForm.pass" style="width: 150px;" placeholder="如不修改不填写即可"></i-input>
         </FormItem>
-
-        <!-- <FormItem label="Select">
-          <Select v-model="formItem.select">
-            <Option value="beijing">New York</Option>
-            <Option value="shanghai">London</Option>
-            <Option value="shenzhen">Sydney</Option>
-          </Select>
-        </FormItem> -->
       </Form>
     </Modal>
 
@@ -50,6 +54,8 @@
 </template>
 
 <script>
+import adminModel from "@/api/admin.js";
+import { deepClone } from '@/libs/tools.js';
 
 export default {
   data () {
@@ -69,7 +75,8 @@ export default {
       editForm: {
         id: -1,
         name: '',
-        password: ''
+        password: '',
+        sex: 'f'
       },
       //  添加表格
       addForm: {},
@@ -82,7 +89,9 @@ export default {
         name: [
           { validator: validateName, required: true, message: '请输入名字', trigger: 'blur' }
         ]
-      }
+      },
+      //  搜索框的内容
+      searchInput: ''
     }
   },
   props: {
@@ -105,6 +114,11 @@ export default {
       // 初始化数据
       this.editForm.id = row.id;
       this.editForm.name = row.name;
+      if (row.sex === '男') {
+        this.editForm.sex = 'm';
+      } else {
+        this.editForm.sex = 'f';
+      }
 
       // 打开弹窗
       this.editModal = true;
@@ -138,17 +152,58 @@ export default {
       const refName = 'editForm';
       this.$refs[refName].validate((valid) => {
         if (valid) {
-          // todo 请求编辑接口
-          this.$Message.success('修改成功!');
-          this.editModal = false;
+          console.log('confirm');
+
+          const pForm = deepClone(this.editForm);
+
+          Object.keys(pForm) // 这里取到key
+            .forEach((key) => { // 这里取到value
+              if (pForm[key] === '') {
+                delete pForm[key];
+              }
+            });
+
+          adminModel.editInfo({ role: 'student', editForm: this.editForm }).then((res) => {
+            if (res.retcode === 0) {
+              console.log(res);
+
+              this.$Message.success('修改成功!');
+              this.editModal = false;
+            } else {
+              this.$Message.error({ content: '修改失败，请稍后重试', duration: 4 });
+            }
+          })
         } else {
-          this.$Message.error({content: '请检查后重新提交!', duration: 4});
+          this.$Message.error({ content: '请检查后重新提交!', duration: 4 });
         }
       });
     },
     //  点击弹窗的确认编添加
     handleAdd () {
 
+    },
+    // 搜索名字
+    handleSearch () {
+      alert(this.searchInput);
+    }
+  },
+  computed: {
+    transStudentData () {
+      const data = [];
+      if (this.tableData) {
+        this.tableData.forEach((elem, idx) => {
+          data.push(elem);
+
+          // 性别过滤
+          if (elem.sex === 'f') {
+            data[idx].sex = '女';
+          } else {
+            data[idx].sex = '男';
+          }
+        });
+      }
+
+      return data;
     }
   }
 }

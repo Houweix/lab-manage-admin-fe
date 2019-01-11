@@ -2,7 +2,7 @@
   <div>
     <Row>
       <i-col span="12">
-        <Card :bordered="false" shadow>这是一个card</Card>
+        <Card :bordered="false" shadow>首页</Card>
       </i-col>
     </Row>
   </div>

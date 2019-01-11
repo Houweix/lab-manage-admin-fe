@@ -6,6 +6,7 @@
     </div>
     <Tabs :value="activeTab" type="card" style="margin-top: 20px">
       <TabPane label="学生管理" name="student">
+        <!-- 表格 -->
         <user-student :columns="newStudentTitle" :tableData="studentData"></user-student>
       </TabPane>
       <TabPane label="教师管理" name="teacher">
@@ -77,13 +78,6 @@ export default {
               return { title: item, key: item };
             });
           }
-
-          // console.log(`title`);
-          // console.log(this.studentTitle);
-          // console.log(`data`);
-          // console.log(this.studentData);
-
-          // console.log(this.newStudentTitle);
         }
       })
     }
@@ -103,6 +97,17 @@ export default {
         width: 170,
         align: 'center',
         fixed: 'right'
+      });
+      this.studentTitle.forEach((elem) => {
+        if (elem.title === 'id') {
+          elem.title = '学号';
+        } else if (elem.title === 'password') {
+
+        } else if (elem.title === 'name') {
+          elem.title = '姓名';
+        } else if (elem.title === 'sex') {
+          elem.title = '性别';
+        }
       });
 
       return Array.from(this.studentTitle).length === 0 ? arr.concat(Array.from(this.studentTitle)) : newArr;

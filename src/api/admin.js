@@ -73,6 +73,28 @@ export default {
       params,
       method: 'get'
     })
+  },
+  // 编辑用户信息（学生，教师，管理员）
+  /**
+   * @param role: 当前编辑的角色
+   * @param editForm：编辑的内容
+   */
+  editInfo: ({
+    role,
+    editForm
+  }) => {
+    console.log(role);
+    console.log(editForm);
+    const data = {
+      role: role,
+      editData: editForm
+    };
+
+    return axios.request({
+      url: '/admin/editUser',
+      data,
+      method: 'post'
+    })
   }
 
   // 基本信息管理---------------------

@@ -7,7 +7,7 @@
     <Tabs :value="activeTab" type="card" style="margin-top: 20px">
       <TabPane label="学生管理" name="student">
         <!-- 表格 -->
-        <user-student :columns="newStudentTitle" :tableData="studentData"></user-student>
+        <user-student :columns="newStudentTitle" :tableData="studentData"  @upSuccess="handleUpSuccess"></user-student>
       </TabPane>
       <TabPane label="教师管理" name="teacher">
         <user-teacher></user-teacher>

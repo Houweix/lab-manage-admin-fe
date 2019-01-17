@@ -1,5 +1,6 @@
 <template>
   <div class="admin-container">
+    <Button type="primary" icon="md-add">点击添加一条记录</Button>
     <Input v-model="searchInput" prefix="ios-contact" placeholder="请输入名字" style="width: auto"/>
     <Button type="primary" icon="ios-search" style="margin-left: 10px;" @click="handleSearch">搜索</Button>
 
@@ -156,19 +157,23 @@ export default {
 
           const pForm = deepClone(this.editForm);
 
+          console.table(pForm);
+
           Object.keys(pForm) // 这里取到key
             .forEach((key) => { // 这里取到value
-              if (pForm[key] === '') {
+              console.log(pForm[key]);
+              if (!pForm[key]) {
                 delete pForm[key];
               }
             });
 
-          adminModel.editInfo({ role: 'student', editForm: this.editForm }).then((res) => {
+          adminModel.editInfo({ role: 'student', editForm: pForm }).then((res) => {
             if (res.retcode === 0) {
               console.log(res);
 
               this.$Message.success('修改成功!');
               this.editModal = false;
+              this.$emit('upSuccess');
             } else {
               this.$Message.error({ content: '修改失败，请稍后重试', duration: 4 });
             }

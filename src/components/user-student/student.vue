@@ -1,7 +1,7 @@
 <template>
   <div class="admin-container">
     <Button type="primary" icon="md-add">点击添加一条记录</Button>
-    <Input v-model="searchInput" prefix="ios-contact" placeholder="请输入名字" style="width: auto"/>
+    <Input v-model="searchInput" prefix="ios-contact" placeholder="请输入名字" style="width: auto; margin-left: 20px"/>
     <Button type="primary" icon="ios-search" style="margin-left: 10px;" @click="handleSearch">搜索</Button>
 
     <!-- 主体显示表格 -->

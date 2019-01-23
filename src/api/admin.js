@@ -74,8 +74,8 @@ export default {
       method: 'get'
     })
   },
-  // 编辑用户信息（学生，教师，管理员）
   /**
+   * 编辑用户信息（学生，教师，管理员）
    * @param role: 当前编辑的角色
    * @param editForm：编辑的内容
    */
@@ -92,6 +92,22 @@ export default {
 
     return axios.request({
       url: '/admin/editUser',
+      data,
+      method: 'post'
+    })
+  },
+  // 搜索用户信息
+  searchUser: ({
+    role,
+    name
+  }) => {
+    const data = {
+      role: role,
+      name: name
+    };
+
+    return axios.request({
+      url: '/admin/searchUser',
       data,
       method: 'post'
     })

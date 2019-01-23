@@ -1,8 +1,14 @@
 <template>
   <div class="admin-container">
     <Button type="primary" icon="md-add">点击添加一条记录</Button>
-    <Input v-model="searchInput" prefix="ios-contact" placeholder="请输入名字" style="width: auto; margin-left: 20px"/>
+    <Input
+      v-model="searchInput"
+      prefix="ios-contact"
+      placeholder="请输入名字"
+      style="width: auto; margin-left: 20px"
+    />
     <Button type="primary" icon="ios-search" style="margin-left: 10px;" @click="handleSearch">搜索</Button>
+    <Button type="warning" icon="md-refresh" style="margin-left: 10px;" @click="handleReset">重置</Button>
 
     <!-- 主体显示表格 -->
     <Table :columns="columns" :data="transStudentData" style="margin-top: 10px;">
@@ -185,11 +191,26 @@ export default {
     },
     //  点击弹窗的确认编添加
     handleAdd () {
-
     },
     // 搜索名字
     handleSearch () {
-      alert(this.searchInput);
+      if (!this.searchInput) {
+        this.$emit('upSuccess');
+      } else {
+        adminModel.searchUser({ role: 'student', name: this.searchInput }).then((res) => {
+          if (res.retcode === 0) {
+            console.log(res);
+
+            this.$emit('searchUser', res, res.data);
+          } else {
+            this.$Message.error({ content: '未找到该用户，请核对后重试', duration: 4 });
+          }
+        })
+      }
+    },
+    handleReset () {
+      this.searchInput = '';
+      this.$emit('upSuccess');
     }
   },
   computed: {

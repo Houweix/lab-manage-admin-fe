@@ -7,7 +7,12 @@
     <Tabs :value="activeTab" type="card" style="margin-top: 20px">
       <TabPane label="学生管理" name="student">
         <!-- 表格 -->
-        <user-student :columns="newStudentTitle" :tableData="studentData"  @upSuccess="handleUpSuccess"></user-student>
+        <user-student
+          :columns="newStudentTitle"
+          :tableData="studentData"
+          @upSuccess="handleUpSuccess"
+          @searchUser="setTableData"
+        ></user-student>
       </TabPane>
       <TabPane label="教师管理" name="teacher">
         <user-teacher></user-teacher>
@@ -74,12 +79,22 @@ export default {
         if (res.retcode === 0) {
           this.studentData = res.data;
           if (res.data[0]) {
-            this.studentTitle = Object.keys(res.data[0]).map(item => {
-              return { title: item, key: item };
-            });
+            this.setTableData(res);
           }
         }
       })
+    },
+    // 根据传来的表格数据设置table
+    setTableData (res, table) {
+      if (res.data[0]) {
+        this.studentTitle = Object.keys(res.data[0]).map(item => {
+          return { title: item, key: item };
+        });
+      }
+
+      if (table) {
+        this.studentData = table;
+      }
     }
   },
   mounted () {

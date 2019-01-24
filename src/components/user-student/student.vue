@@ -1,6 +1,6 @@
 <template>
   <div class="admin-container">
-    <Button type="primary" icon="md-add">点击添加一条记录</Button>
+    <Button type="primary" icon="md-add" @click="handleAddUser">点击添加一条记录</Button>
     <Input
       v-model="searchInput"
       prefix="ios-contact"
@@ -25,7 +25,6 @@
       title="编辑学生信息"
       @on-visible-change="handleOpenEdit"
       @on-ok="handleEdit"
-      :loading="loading1"
     >
       <Form :model="editForm" :label-width="80" :rules="editRule" ref="editForm">
         <FormItem label="姓名" prop="name">
@@ -47,15 +46,24 @@
     </Modal>
 
     <!-- 添加modal -->
-    <Modal
-      v-model="addModal"
-      title="Common Modal dialog box title"
-      @on-visible-change="handleOpenAdd"
-      @on-ok="handleAdd"
-    >
-      <p>Content of dialog</p>
-      <p>Content of dialog</p>
-      <p>Content of dialog</p>
+    <Modal v-model="addModal" title="添加学生信息" @on-visible-change="handleOpenAdd" @on-ok="handleAdd">
+      <Form :model="addForm" :label-width="80" :rules="addRule" ref="editForm">
+        <FormItem label="姓名" prop="name">
+          <i-input v-model="addForm.name" style="width: 150px;"></i-input>
+          <span style="margin-left: 10px;">长度2~10位</span>
+        </FormItem>
+
+        <FormItem label="性别" prop="sex">
+          <Select v-model="addForm.sex" style="width: 150px;">
+            <Option value="m">男</Option>
+            <Option value="f">女</Option>
+          </Select>
+        </FormItem>
+
+        <FormItem label="密码" prop="pass">
+          <i-input v-model="addForm.pass" style="width: 150px;"></i-input>
+        </FormItem>
+      </Form>
     </Modal>
   </div>
 </template>
@@ -86,13 +94,18 @@ export default {
         sex: 'f'
       },
       //  添加表格
-      addForm: {},
-      // edit
-      loading1: false,
-      // add
-      loading2: false,
+      addForm: {
+        name: '',
+        password: '',
+        sex: ''
+      },
       //  编辑弹窗的验证
       editRule: {
+        name: [
+          { validator: validateName, required: true, message: '请输入名字', trigger: 'blur' }
+        ]
+      },
+      addRule: {
         name: [
           { validator: validateName, required: true, message: '请输入名字', trigger: 'blur' }
         ]
@@ -179,7 +192,12 @@ export default {
 
               this.$Message.success('修改成功!');
               this.editModal = false;
-              this.$emit('upSuccess');
+
+              if (this.searchInput) {
+                this.handleSearch();
+              } else {
+                this.$emit('upSuccess');
+              }
             } else {
               this.$Message.error({ content: '修改失败，请稍后重试', duration: 4 });
             }
@@ -211,6 +229,10 @@ export default {
     handleReset () {
       this.searchInput = '';
       this.$emit('upSuccess');
+    },
+    //  添加一条记录
+    handleAddUser () {
+      this.addModal = true;
     }
   },
   computed: {

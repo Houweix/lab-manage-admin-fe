@@ -1,6 +1,6 @@
 <template>
   <div class="admin-container">
-    <Button type="primary" icon="md-add" @click="handleAddUser">点击添加一条记录</Button>
+    <Button type="primary" icon="md-add" @click="addModal = true">点击添加一条记录</Button>
     <Input
       v-model="searchInput"
       prefix="ios-contact"
@@ -40,14 +40,14 @@
         </FormItem>
 
         <FormItem label="新密码">
-          <i-input v-model="editForm.pass" style="width: 150px;" placeholder="如不修改不填写即可"></i-input>
+          <i-input v-model="editForm.password" style="width: 150px;" placeholder="如不修改不填写即可"></i-input>
         </FormItem>
       </Form>
     </Modal>
 
     <!-- 添加modal -->
     <Modal v-model="addModal" title="添加学生信息" @on-visible-change="handleOpenAdd" @on-ok="handleAdd">
-      <Form :model="addForm" :label-width="80" :rules="addRule" ref="editForm">
+      <Form :model="addForm" :label-width="80" :rules="addRule" ref="addForm">
         <FormItem label="姓名" prop="name">
           <i-input v-model="addForm.name" style="width: 150px;"></i-input>
           <span style="margin-left: 10px;">长度2~10位</span>
@@ -60,8 +60,9 @@
           </Select>
         </FormItem>
 
-        <FormItem label="密码" prop="pass">
-          <i-input v-model="addForm.pass" style="width: 150px;"></i-input>
+        <FormItem label="密码" prop="password">
+          <i-input v-model="addForm.password" style="width: 150px;"></i-input>
+          <span style="margin-left: 10px;">长度5~10位</span>
         </FormItem>
       </Form>
     </Modal>
@@ -79,6 +80,16 @@ export default {
         callback(new Error('请输入用户名'));
       } else if (value.length < 2 || value.length > 10) {
         callback(new Error('请输入长度2~10的名字！'));
+      } else {
+        callback();
+      }
+    };
+
+    const validatePass = (rule, value, callback) => {
+      if (value === '' || value === ' ') {
+        callback(new Error('请输入密码'));
+      } else if (value.length < 5 || value.length > 10) {
+        callback(new Error('请输入长度5~10的密码！'));
       } else {
         callback();
       }
@@ -102,12 +113,18 @@ export default {
       //  编辑弹窗的验证
       editRule: {
         name: [
-          { validator: validateName, required: true, message: '请输入名字', trigger: 'blur' }
+          { validator: validateName, required: true, trigger: 'blur' }
         ]
       },
       addRule: {
         name: [
-          { validator: validateName, required: true, message: '请输入名字', trigger: 'blur' }
+          { validator: validateName, required: true, trigger: 'blur' }
+        ],
+        sex: [
+          { required: true, message: '请选择性别', trigger: 'blur' }
+        ],
+        password: [
+          { validator: validatePass, required: true, trigger: 'blur' }
         ]
       },
       //  搜索框的内容
@@ -156,15 +173,10 @@ export default {
       }
     },
     //  点开添加的初始化
-    handleOpenAdd (status) {
-      if (status) {
-        //  打开前的初始化
-
-      } else {
-        //  关闭的初始化
-        const refName = 'addForm';
-        this.$refs[refName].resetFields();
-      }
+    handleOpenAdd () {
+      this.addForm.name = '';
+      this.addForm.password = '';
+      this.addForm.sex = '';
     },
     //  点击弹窗的确认编辑
     handleEdit () {
@@ -209,6 +221,30 @@ export default {
     },
     //  点击弹窗的确认编添加
     handleAdd () {
+      const refName = 'addForm';
+      this.$refs[refName].validate((valid) => {
+        if (valid) {
+          console.log(111);
+          const pForm = deepClone(this.addForm);
+          // alert('pass');
+
+          adminModel.addUser({ role: 'student', postData: pForm }).then((res) => {
+            if (res.retcode === 0) {
+              console.log(res);
+
+              this.$Message.success('添加成功!');
+              this.eaddModal = false;
+
+              // 刷新数据
+              this.$emit('upSuccess');
+            } else {
+              this.$Message.error({ content: '添加失败，请稍后重试', duration: 4 });
+            }
+          })
+        } else {
+          this.$Message.error({ content: '请检查完整后重新提交!', duration: 4 });
+        }
+      });
     },
     // 搜索名字
     handleSearch () {
@@ -229,10 +265,6 @@ export default {
     handleReset () {
       this.searchInput = '';
       this.$emit('upSuccess');
-    },
-    //  添加一条记录
-    handleAddUser () {
-      this.addModal = true;
     }
   },
   computed: {

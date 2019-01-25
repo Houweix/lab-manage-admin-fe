@@ -111,6 +111,25 @@ export default {
       data,
       method: 'post'
     })
+  },
+  // 添加用户信息
+  /**
+   * todo 可以通用
+   */
+  addUser: ({
+    role,
+    postData
+  }) => {
+    const data = {
+      role: role,
+      userData: postData
+    };
+
+    return axios.request({
+      url: '/admin/addUser',
+      data,
+      method: 'post'
+    })
   }
 
   // 基本信息管理---------------------

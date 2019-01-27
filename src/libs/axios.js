@@ -23,7 +23,6 @@ class HttpRequest {
       headers: {
         //
       },
-      // todo 更改axios的配置
       validateStatus: function (status) {
         return status === 200
       }

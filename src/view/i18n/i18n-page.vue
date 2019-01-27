@@ -21,7 +21,6 @@ export default {
   methods: {
     handleSubmit({ username, password, identity }) {
       adminModel.tmpAdd({ username, password, identity }).then(res => {
-        //  todo 这里应该是请求登录接口然后返回用户数据
         console.log(res);
         if (res.retcode === 0) {
           this.$Notice.success({

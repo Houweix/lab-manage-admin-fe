@@ -47,7 +47,8 @@ export default {
   data () {
     return {
       // 当前激活的是哪一个tab
-      activeTab: "student",
+      // todo 修改默认激活的tab为 'student'
+      activeTab: "teacher",
       //  上传文件选择的角色
       uploadRole: 'student',
       // 学生表格

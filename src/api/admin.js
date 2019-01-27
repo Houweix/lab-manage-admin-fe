@@ -130,6 +130,24 @@ export default {
       data,
       method: 'post'
     })
+  },
+  //  删除用户数据
+  deleteUser: ({
+    role,
+    id
+  }) => {
+    const data = {
+      role: role,
+      userData: {
+        id
+      }
+    };
+
+    return axios.request({
+      url: '/admin/deleteUser',
+      data,
+      method: 'post'
+    })
   }
 
   // 基本信息管理---------------------

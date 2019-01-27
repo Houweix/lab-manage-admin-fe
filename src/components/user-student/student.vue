@@ -145,6 +145,19 @@ export default {
     //  点击删除一条学生信息
     studentDelete (row) {
       console.log(row);
+
+      adminModel.deleteUser({ role: 'student', id: row.id }).then((res) => {
+        if (res.retcode === 0) {
+          console.log(res);
+
+          this.$Message.success('删除成功!');
+
+          // 刷新数据
+          this.$emit('upSuccess');
+        } else {
+          this.$Message.error({ content: '删除失败，请稍后重试', duration: 4 });
+        }
+      });
     },
     // 点击编辑一条学生信息
     studentEdit (row) {
@@ -240,7 +253,7 @@ export default {
             } else {
               this.$Message.error({ content: '添加失败，请稍后重试', duration: 4 });
             }
-          })
+          });
         } else {
           this.$Message.error({ content: '请检查完整后重新提交!', duration: 4 });
         }

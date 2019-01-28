@@ -15,7 +15,12 @@
         ></user-student>
       </TabPane>
       <TabPane label="教师管理" name="teacher">
-        <user-teacher></user-teacher>
+        <user-teacher
+          :columns="newTeacherTitle"
+          :tableData="teachertData"
+          @upSuccess="handleUpSuccess"
+          @searchUser="setTableData"
+        ></user-teacher>
       </TabPane>
       <TabPane label="管理员管理" name="admin">
         <user-admin></user-admin>
@@ -51,12 +56,13 @@ export default {
       activeTab: "teacher",
       //  上传文件选择的角色
       uploadRole: 'student',
-      // 学生表格
-      studentData: [],
       studentTitle: [],
-      // 教师表格
+      studentData: [],
+
+      teacherTitle: [],
       teacherData: [],
-      // 管理员表格
+
+      adminTitle: [],
       adminData: []
     };
   },
@@ -67,12 +73,7 @@ export default {
     },
     //  上传成功的回调
     handleUpSuccess () {
-      // 更新表格数据
       this.getIndex();
-      // console.log(`title`);
-      // console.log(this.studentTitle);
-      // console.log(`data`);
-      // console.log(this.studentData);
     },
     //  获取首页信息
     getIndex () {
@@ -83,7 +84,16 @@ export default {
             this.setTableData(res);
           }
         }
-      })
+      });
+
+      adminModel.getAllData({ role: 'teacher' }).then((res) => {
+        if (res.retcode === 0) {
+          this.studentData = res.data;
+          if (res.data[0]) {
+            this.setTableData(res);
+          }
+        }
+      });
     },
     // 根据传来的表格数据设置table
     setTableData (res, table) {

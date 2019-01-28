@@ -144,20 +144,26 @@ export default {
   methods: {
     //  点击删除一条学生信息
     studentDelete (row) {
-      console.log(row);
+      this.$Modal.confirm({
+        title: '警告',
+        content: '<p>确认要删除该用户的信息吗？</p>',
+        onOk: () => {
+          adminModel.deleteUser({ role: 'student', id: row.id }).then((res) => {
+            if (res.retcode === 0) {
+              console.log(res);
 
-      adminModel.deleteUser({ role: 'student', id: row.id }).then((res) => {
-        if (res.retcode === 0) {
-          console.log(res);
+              this.$Message.success('删除成功!');
 
-          this.$Message.success('删除成功!');
-
-          // 刷新数据
-          this.$emit('upSuccess');
-        } else {
-          this.$Message.error({ content: '删除失败，请稍后重试', duration: 4 });
+              // 刷新数据
+              this.$emit('upSuccess');
+            } else {
+              this.$Message.error({ content: '删除失败，请稍后重试', duration: 4 });
+            }
+          });
         }
       });
+
+      console.log(row);
     },
     // 点击编辑一条学生信息
     studentEdit (row) {

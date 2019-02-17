@@ -17,7 +17,7 @@
       <TabPane label="教师管理" name="teacher">
         <user-teacher
           :columns="newTeacherTitle"
-          :tableData="teachertData"
+          :tableData="teacherData"
           @upSuccess="handleUpSuccess"
           @searchUser="setTableData"
         ></user-teacher>
@@ -53,7 +53,7 @@ export default {
     return {
       // 当前激活的是哪一个tab
       // todo 修改默认激活的tab为 'student'
-      activeTab: "teacher",
+      activeTab: "student",
       //  上传文件选择的角色
       uploadRole: 'student',
       studentTitle: [],
@@ -86,14 +86,14 @@ export default {
         }
       });
 
-      adminModel.getAllData({ role: 'teacher' }).then((res) => {
-        if (res.retcode === 0) {
-          this.studentData = res.data;
-          if (res.data[0]) {
-            this.setTableData(res);
-          }
-        }
-      });
+      // adminModel.getAllData({ role: 'teacher' }).then((res) => {
+      //   if (res.retcode === 0) {
+      //     this.teacherData = res.data;
+      //     if (res.data[0]) {
+      //       this.setTableData(res);
+      //     }
+      //   }
+      // });
     },
     // 根据传来的表格数据设置table
     setTableData (res, table) {
@@ -137,7 +137,32 @@ export default {
       });
 
       return Array.from(this.studentTitle).length === 0 ? arr.concat(Array.from(this.studentTitle)) : newArr;
+    },
+    newTeacherTitle () {
+      const arr = [];
+      const newArr = arr.concat(this.teacherTitle);
+      newArr.push({
+        title: '操作',
+        slot: 'action',
+        width: 170,
+        align: 'center',
+        fixed: 'right'
+      });
+      this.teacherTitle.forEach((elem) => {
+        if (elem.title === 'id') {
+          elem.title = '学号';
+        } else if (elem.title === 'password') {
+
+        } else if (elem.title === 'name') {
+          elem.title = '姓名';
+        } else if (elem.title === 'sex') {
+          elem.title = '性别';
+        }
+      });
+
+      return Array.from(this.teacherTitle).length === 0 ? arr.concat(Array.from(this.teacherTitle)) : newArr;
     }
+
   }
 }
 </script>

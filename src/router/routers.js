@@ -76,14 +76,6 @@ export default [{
   },
   component: Main,
   children: [{
-    path: 'class',
-    name: 'class',
-    meta: {
-      title: '班级管理',
-      icon: 'md-contacts'
-    },
-    component: () => import('@/view/management/class.vue')
-  }, {
     path: 'lab',
     name: 'lab',
     meta: {
@@ -91,14 +83,6 @@ export default [{
       icon: 'ios-flask'
     },
     component: () => import('@/view/management/lab.vue')
-  }, {
-    path: 'device',
-    name: 'device',
-    meta: {
-      title: '设备管理',
-      icon: 'md-laptop'
-    },
-    component: () => import('@/view/management/device.vue')
   }]
 },
 {

@@ -4,7 +4,7 @@
     <div class="upload">
       <upload-excel @receiveSelect="handleChangeRole" @upSuccess="handleUpSuccess"></upload-excel>
     </div>
-    <Tabs :value="activeTab" type="card" style="margin-top: 20px">
+    <Tabs :value="activeTab" type="card" style="margin-top: 20px" @on-click="handleChangeTab">
       <TabPane label="学生管理" name="student">
         <!-- 表格 -->
         <user-student
@@ -76,41 +76,55 @@ export default {
       this.getIndex();
     },
     //  获取首页信息
-    getIndex () {
-      adminModel.getAllData({ role: 'student' }).then((res) => {
+    getIndex (name) {
+      adminModel.getAllData({ role: name }).then((res) => {
         if (res.retcode === 0) {
-          this.studentData = res.data;
-          if (res.data[0]) {
-            this.setTableData(res);
+          if (name === 'student') {
+            // 学生
+            this.studentData = res.data;
+            if (res.data[0]) {
+              this.setTableData(res);
+            }
+          } else if (name === 'teacher') {
+            // 教师
+            this.teacherData = res.data;
+            if (res.data[0]) {
+              this.setTableData(res);
+            }
+          } else {
+            //  管理员
           }
         }
       });
-
-      // adminModel.getAllData({ role: 'teacher' }).then((res) => {
-      //   if (res.retcode === 0) {
-      //     this.teacherData = res.data;
-      //     if (res.data[0]) {
-      //       this.setTableData(res);
-      //     }
-      //   }
-      // });
     },
     // 根据传来的表格数据设置table
-    setTableData (res, table) {
+    setTableData (res, table, type) {
+      // 格式化数据
       if (res.data[0]) {
         this.studentTitle = Object.keys(res.data[0]).map(item => {
           return { title: item, key: item };
         });
       }
 
+      //  当有第二个参数的时候，设置表格数据
       if (table) {
-        this.studentData = table;
+        if (type === 'student') {
+          this.studentData = table;
+        } else if (type === 'teacher') {
+          this.teacherData = table;
+        }
       }
+    },
+    //  当tab的值发生变化，请求对应的数据
+    handleChangeTab (name) {
+      console.log('--------------name----------');
+      console.log(name);
+      this.getIndex(name);
     }
   },
   mounted () {
-    // 获取表格信息
-    this.getIndex();
+    // 获取表格信息 //第一次默认学生
+    this.getIndex('student');
   },
   computed: {
     //  结尾增加操作列
@@ -128,11 +142,13 @@ export default {
         if (elem.title === 'id') {
           elem.title = '学号';
         } else if (elem.title === 'password') {
-
+          elem.title = '密码';
         } else if (elem.title === 'name') {
           elem.title = '姓名';
         } else if (elem.title === 'sex') {
           elem.title = '性别';
+        } else if (elem.title === 'class') {
+          elem.title = '班级';
         }
       });
 
@@ -152,7 +168,7 @@ export default {
         if (elem.title === 'id') {
           elem.title = '学号';
         } else if (elem.title === 'password') {
-
+          elem.title = '密码';
         } else if (elem.title === 'name') {
           elem.title = '姓名';
         } else if (elem.title === 'sex') {

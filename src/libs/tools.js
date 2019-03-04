@@ -221,3 +221,16 @@ export const objEqual = (obj1, obj2) => {
 export const deepClone = (source) => {
   return JSON.parse(JSON.stringify(source));
 }
+
+/**
+ * 判断一个变量是否为空数组
+ * @param {*} arr
+ */
+export const isEmptyArr = (arr) => {
+  if (Array.isArray(arr) && arr.length !== 0) {
+    console.log('不是空数组');
+    return true;
+  } else {
+    return false;
+  }
+}

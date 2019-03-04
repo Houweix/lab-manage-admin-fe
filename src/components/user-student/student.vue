@@ -274,7 +274,7 @@ export default {
           if (res.retcode === 0) {
             console.log(res);
 
-            this.$emit('searchUser', res, res.data);
+            this.$emit('searchUser', res, res.data, 'student');
           } else {
             this.$Message.error({ content: '未找到该用户，请核对后重试', duration: 4 });
           }

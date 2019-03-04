@@ -14,8 +14,8 @@
     <Table :columns="columns" :data="transStudentData" style="margin-top: 10px;">
       <!-- 插槽，显示每行的编辑功能 -->
       <template slot-scope="{ row }" slot="action">
-        <Button type="primary" size="default" style="margin-right: 5px" @click="studentEdit(row)">编辑</Button>
-        <Button type="error" size="default" @click="studentDelete(row)">删除</Button>
+        <Button type="primary" size="default" style="margin-right: 5px" @click="teacherEdit(row)">编辑</Button>
+        <Button type="error" size="default" @click="teacherDelete(row)">删除</Button>
       </template>
     </Table>
 

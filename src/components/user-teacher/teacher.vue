@@ -19,10 +19,43 @@
       </template>
     </Table>
 
+    <!-- 添加modal -->
+    <Modal v-model="addModal" title="添加教师信息" @on-visible-change="handleOpenAdd" @on-ok="handleAdd">
+      <Form :model="addForm" :label-width="80" :rules="addRule" ref="addForm">
+        <FormItem label="姓名" prop="name">
+          <i-input v-model="addForm.name" style="width: 150px;"></i-input>
+          <span style="margin-left: 10px;">长度2~10位</span>
+        </FormItem>
+
+        <FormItem label="性别" prop="sex">
+          <Select v-model="addForm.sex" style="width: 150px;">
+            <Option value="m">男</Option>
+            <Option value="f">女</Option>
+          </Select>
+        </FormItem>
+
+        <FormItem label="密码" prop="password">
+          <i-input v-model="addForm.password" style="width: 150px;"></i-input>
+          <span style="margin-left: 10px;">长度5~10位</span>
+        </FormItem>
+
+        <FormItem label="负责班级名称" prop="class_name">
+          <i-input v-model="addForm.class_name" style="width: 150px;"></i-input>
+        </FormItem>
+
+        <!-- todo 这里增加下拉框让用户选择课程，然后传入id-->
+        <FormItem label="班级">
+          <Select v-model="addForm.course_id" style="width: 150px;">
+            <!-- <Option :value="" v-for="">男</Option> -->
+          </Select>
+        </FormItem>
+      </Form>
+    </Modal>
+
     <!-- 编辑modal -->
     <Modal
       v-model="editModal"
-      title="编辑学生信息"
+      title="编辑教师信息"
       @on-visible-change="handleOpenEdit"
       @on-ok="handleEdit"
     >
@@ -42,27 +75,13 @@
         <FormItem label="新密码">
           <i-input v-model="editForm.password" style="width: 150px;" placeholder="如不修改不填写即可"></i-input>
         </FormItem>
-      </Form>
-    </Modal>
 
-    <!-- 添加modal -->
-    <Modal v-model="addModal" title="添加学生信息" @on-visible-change="handleOpenAdd" @on-ok="handleAdd">
-      <Form :model="addForm" :label-width="80" :rules="addRule" ref="addForm">
-        <FormItem label="姓名" prop="name">
-          <i-input v-model="addForm.name" style="width: 150px;"></i-input>
-          <span style="margin-left: 10px;">长度2~10位</span>
-        </FormItem>
-
-        <FormItem label="性别" prop="sex">
-          <Select v-model="addForm.sex" style="width: 150px;">
-            <Option value="m">男</Option>
-            <Option value="f">女</Option>
+        <!-- todo  接口获取所有的course信息 -->
+        <FormItem label="Select">
+          <Select v-model="editForm.course_id" style="width: 150px;">
+            <!-- <Option value="m">男</Option>
+            <Option value="f">女</Option> -->
           </Select>
-        </FormItem>
-
-        <FormItem label="密码" prop="password">
-          <i-input v-model="addForm.password" style="width: 150px;"></i-input>
-          <span style="margin-left: 10px;">长度5~10位</span>
         </FormItem>
       </Form>
     </Modal>
@@ -102,13 +121,17 @@ export default {
         id: -1,
         name: '',
         password: '',
-        sex: 'f'
+        sex: 'f',
+        class_name: '',
+        course_id: -1
       },
       //  添加表格
       addForm: {
         name: '',
         password: '',
-        sex: ''
+        sex: '',
+        class_name: '',
+        course_id: -1
       },
       //  编辑弹窗的验证
       editRule: {
@@ -142,13 +165,13 @@ export default {
     }
   },
   methods: {
-    //  点击删除一条学生信息
-    studentDelete (row) {
+    //  点击删除一条信息
+    teacherDelete (row) {
       this.$Modal.confirm({
         title: '警告',
         content: '<p>确认要删除该用户的信息吗？</p>',
         onOk: () => {
-          adminModel.deleteUser({ role: 'student', id: row.id }).then((res) => {
+          adminModel.deleteUser({ role: 'teacher', id: row.id }).then((res) => {
             if (res.retcode === 0) {
               console.log(res);
 
@@ -166,7 +189,7 @@ export default {
       console.log(row);
     },
     // 点击编辑一条学生信息
-    studentEdit (row) {
+    teacherEdit (row) {
       // 初始化数据
       this.editForm.id = row.id;
       this.editForm.name = row.name;
@@ -217,7 +240,7 @@ export default {
               }
             });
 
-          adminModel.editInfo({ role: 'student', editForm: pForm }).then((res) => {
+          adminModel.editInfo({ role: 'teacher', editForm: pForm }).then((res) => {
             if (res.retcode === 0) {
               console.log(res);
 
@@ -238,7 +261,7 @@ export default {
         }
       });
     },
-    //  点击弹窗的确认编添加
+    //  点击弹窗的确认添加
     handleAdd () {
       const refName = 'addForm';
       this.$refs[refName].validate((valid) => {

@@ -39,12 +39,12 @@
           <span style="margin-left: 10px;">长度5~10位</span>
         </FormItem>
 
-        <FormItem label="负责班级名称" prop="class_name">
+        <FormItem label="负责班级" prop="class_name">
           <i-input v-model="addForm.class_name" style="width: 150px;"></i-input>
         </FormItem>
 
         <!-- todo 这里增加下拉框让用户选择课程，然后传入id-->
-        <FormItem label="班级">
+        <FormItem label="课程">
           <Select v-model="addForm.course_id" style="width: 150px;">
             <!-- <Option :value="" v-for="">男</Option> -->
           </Select>
@@ -123,7 +123,7 @@ export default {
         password: '',
         sex: 'f',
         class_name: '',
-        course_id: -1
+        course_id: 0
       },
       //  添加表格
       addForm: {
@@ -131,7 +131,7 @@ export default {
         password: '',
         sex: '',
         class_name: '',
-        course_id: -1
+        course_id: 0
       },
       //  编辑弹窗的验证
       editRule: {
@@ -188,9 +188,10 @@ export default {
 
       console.log(row);
     },
-    // 点击编辑一条学生信息
+    // 点击编辑一条信息
     teacherEdit (row) {
       // 初始化数据
+      // todo
       this.editForm.id = row.id;
       this.editForm.name = row.name;
       if (row.sex === '男') {
@@ -266,11 +267,10 @@ export default {
       const refName = 'addForm';
       this.$refs[refName].validate((valid) => {
         if (valid) {
-          console.log(111);
           const pForm = deepClone(this.addForm);
           // alert('pass');
 
-          adminModel.addUser({ role: 'student', postData: pForm }).then((res) => {
+          adminModel.addUser({ role: 'teacher', postData: pForm }).then((res) => {
             if (res.retcode === 0) {
               console.log(res);
 

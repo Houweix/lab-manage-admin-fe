@@ -178,7 +178,7 @@ export default {
               this.$Message.success('删除成功!');
 
               // 刷新数据
-              this.$emit('upSuccess');
+              this.$emit('upSuccess', 'teacher');
             } else {
               this.$Message.error({ content: '删除失败，请稍后重试', duration: 4 });
             }

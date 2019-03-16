@@ -72,8 +72,8 @@ export default {
       this.activeTab = role;
     },
     //  上传成功的回调
-    handleUpSuccess () {
-      this.getIndex();
+    handleUpSuccess (name) {
+      this.getIndex(name);
     },
     //  获取首页信息
     getIndex (name) {
@@ -83,6 +83,7 @@ export default {
             // 学生
             this.studentData = res.data;
             if (res.data[0]) {
+              console.log(res.data);
               this.setTableData(res);
             }
           } else if (name === 'teacher') {
@@ -107,13 +108,13 @@ export default {
       }
 
       //  当有第二个参数的时候，设置表格数据
-      if (table) {
-        if (type === 'student') {
-          this.studentData = table;
-        } else if (type === 'teacher') {
-          this.teacherData = table;
-        }
-      }
+      // if (table) {
+      //   if (type === 'student') {
+      //     this.studentData = table;
+      //   } else if (type === 'teacher') {
+      //     this.teacherData = table;
+      //   }
+      // }
     },
     //  当tab的值发生变化，请求对应的数据
     handleChangeTab (name) {

@@ -148,7 +148,18 @@ export default {
       data,
       method: 'post'
     })
-  }
+  },
 
   // 基本信息管理---------------------
+
+  // 课程
+  getCourseData: () => {
+    const data = {};
+
+    return axios.request({
+      url: '/course/getAllData',
+      data,
+      method: 'get'
+    })
+  }
 }

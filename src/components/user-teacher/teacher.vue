@@ -46,7 +46,7 @@
         <!-- todo 这里增加下拉框让用户选择课程，然后传入id-->
         <FormItem label="课程">
           <Select v-model="addForm.course_id" style="width: 150px;">
-            <!-- <Option :value="" v-for="">男</Option> -->
+            <Option :value="course.id" :label="course.name" v-for="course in courses" :key="course.id"></Option>
           </Select>
         </FormItem>
       </Form>
@@ -133,6 +133,8 @@ export default {
         class_name: '',
         course_id: 0
       },
+      //  课程临时
+      courses: [],
       //  编辑弹窗的验证
       editRule: {
         name: [
@@ -220,6 +222,16 @@ export default {
       this.addForm.name = '';
       this.addForm.password = '';
       this.addForm.sex = '';
+
+      adminModel.getCourseData().then((res) => {
+        if (res.retcode === 0) {
+          console.log(res);
+          console.log('这里是课程的数组：');
+          console.log(res.data);
+
+          this.courses = res.data;
+        }
+      });
     },
     //  点击弹窗的确认编辑
     handleEdit () {
@@ -251,7 +263,7 @@ export default {
               if (this.searchInput) {
                 this.handleSearch();
               } else {
-                this.$emit('upSuccess');
+                this.$emit('upSuccess', 'teacjer');
               }
             } else {
               this.$Message.error({ content: '修改失败，请稍后重试', duration: 4 });
@@ -278,7 +290,7 @@ export default {
               this.eaddModal = false;
 
               // 刷新数据
-              this.$emit('upSuccess');
+              this.$emit('upSuccess', 'teacher');
             } else {
               this.$Message.error({ content: '添加失败，请稍后重试', duration: 4 });
             }
@@ -291,7 +303,7 @@ export default {
     // 搜索名字
     handleSearch () {
       if (!this.searchInput) {
-        this.$emit('upSuccess');
+        this.$emit('upSuccess', 'teacher');
       } else {
         adminModel.searchUser({ role: 'student', name: this.searchInput }).then((res) => {
           if (res.retcode === 0) {
@@ -306,7 +318,7 @@ export default {
     },
     handleReset () {
       this.searchInput = '';
-      this.$emit('upSuccess');
+      this.$emit('upSuccess', 'teacher');
     }
   },
   computed: {

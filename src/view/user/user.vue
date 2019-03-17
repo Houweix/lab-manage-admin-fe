@@ -83,14 +83,13 @@ export default {
             // 学生
             this.studentData = res.data;
             if (res.data[0]) {
-              console.log(res.data);
-              this.setTableData(res);
+              this.setColumns(res.data[0], 'student');
             }
           } else if (name === 'teacher') {
             // 教师
             this.teacherData = res.data;
             if (res.data[0]) {
-              this.setTableData(res);
+              this.setColumns(res.data[0], 'teacher');
             }
           } else {
             //  管理员
@@ -99,22 +98,32 @@ export default {
       });
     },
     // 根据传来的表格数据设置table
-    setTableData (res, table, type) {
+    setTableData (table, type) {
+      //  当有第二个参数的时候，设置表格数据
+      if (table) {
+        if (type === 'student') {
+          this.studentData = table;
+        } else if (type === 'teacher') {
+          this.teacherData = table;
+        }
+      }
+    },
+    //  设置列的分类
+    setColumns (data, type) {
       // 格式化数据
-      if (res.data[0]) {
-        this.studentTitle = Object.keys(res.data[0]).map(item => {
+      if (type === 'student') {
+        this.studentTitle = Object.keys(data).map(item => {
+          return { title: item, key: item };
+        });
+      } else if (type === 'teacher') {
+        this.teacherTitle = Object.keys(data).map(item => {
+          return { title: item, key: item };
+        });
+      } else if (type === 'admin') {
+        this.adminTitle = Object.keys(data).map(item => {
           return { title: item, key: item };
         });
       }
-
-      //  当有第二个参数的时候，设置表格数据
-      // if (table) {
-      //   if (type === 'student') {
-      //     this.studentData = table;
-      //   } else if (type === 'teacher') {
-      //     this.teacherData = table;
-      //   }
-      // }
     },
     //  当tab的值发生变化，请求对应的数据
     handleChangeTab (name) {
@@ -167,11 +176,15 @@ export default {
       });
       this.teacherTitle.forEach((elem) => {
         if (elem.title === 'id') {
-          elem.title = '学号';
+          elem.title = '工号';
         } else if (elem.title === 'password') {
           elem.title = '密码';
         } else if (elem.title === 'name') {
           elem.title = '姓名';
+        } else if (elem.title === 'sex') {
+          elem.title = '性别';
+        } else if (elem.title === 'class_name') {
+          elem.title = '班级';
         } else if (elem.title === 'sex') {
           elem.title = '性别';
         }

@@ -32,7 +32,7 @@
           <span style="margin-left: 10px;">长度2~10位</span>
         </FormItem>
 
-        <FormItem label="Select">
+        <FormItem label="性别">
           <Select v-model="editForm.sex" style="width: 150px;">
             <Option value="m">男</Option>
             <Option value="f">女</Option>
@@ -113,7 +113,7 @@ export default {
       //  编辑弹窗的验证
       editRule: {
         name: [
-          { validator: validateName, required: true, trigger: 'blur' }
+          { validator: validateName, trigger: 'blur' }
         ]
       },
       addRule: {
@@ -227,7 +227,7 @@ export default {
               if (this.searchInput) {
                 this.handleSearch();
               } else {
-                this.$emit('upSuccess');
+                this.$emit('upSuccess', 'student');
               }
             } else {
               this.$Message.error({ content: '修改失败，请稍后重试', duration: 4 });
@@ -268,13 +268,13 @@ export default {
     // 搜索名字
     handleSearch () {
       if (!this.searchInput) {
-        this.$emit('upSuccess');
+        this.$emit('upSuccess', 'student');
       } else {
         adminModel.searchUser({ role: 'student', name: this.searchInput }).then((res) => {
           if (res.retcode === 0) {
             console.log(res);
 
-            this.$emit('searchUser', res, res.data, 'student');
+            this.$emit('searchUser', res.data, 'student');
           } else {
             this.$Message.error({ content: '未找到该用户，请核对后重试', duration: 4 });
           }
@@ -283,7 +283,7 @@ export default {
     },
     handleReset () {
       this.searchInput = '';
-      this.$emit('upSuccess');
+      this.$emit('upSuccess', 'student');
     }
   },
   computed: {

@@ -65,23 +65,20 @@
           <span style="margin-left: 10px;">长度2~10位</span>
         </FormItem>
 
-        <FormItem label="Select">
+        <FormItem label="性别" prop="sex">
           <Select v-model="editForm.sex" style="width: 150px;">
             <Option value="m">男</Option>
             <Option value="f">女</Option>
           </Select>
         </FormItem>
 
-        <FormItem label="新密码">
-          <i-input v-model="editForm.password" style="width: 150px;" placeholder="如不修改不填写即可"></i-input>
+        <FormItem label="新密码" prop="password">
+          <i-input v-model="editForm.password" style="width: 150px;" placeholder=""></i-input>
+          <span style="margin-left: 10px;">长度5~10位</span>
         </FormItem>
 
-        <!-- todo  接口获取所有的course信息 -->
-        <FormItem label="Select">
-          <Select v-model="editForm.course_id" style="width: 150px;">
-            <!-- <Option value="m">男</Option>
-            <Option value="f">女</Option> -->
-          </Select>
+        <FormItem label="负责班级" prop="class_name">
+          <i-input v-model="editForm.class_name" style="width: 150px;"></i-input>
         </FormItem>
       </Form>
     </Modal>
@@ -122,8 +119,7 @@ export default {
         name: '',
         password: '',
         sex: 'f',
-        class_name: '',
-        course_id: 0
+        class_name: ''
       },
       //  添加表格
       addForm: {
@@ -138,7 +134,7 @@ export default {
       //  编辑弹窗的验证
       editRule: {
         name: [
-          { validator: validateName, required: true, trigger: 'blur' }
+          { validator: validateName, trigger: 'blur' }
         ]
       },
       addRule: {
@@ -201,6 +197,7 @@ export default {
       } else {
         this.editForm.sex = 'f';
       }
+      this.editForm.class_name = row.class_name;
 
       // 打开弹窗
       this.editModal = true;
@@ -263,7 +260,7 @@ export default {
               if (this.searchInput) {
                 this.handleSearch();
               } else {
-                this.$emit('upSuccess', 'teacjer');
+                this.$emit('upSuccess', 'teacher');
               }
             } else {
               this.$Message.error({ content: '修改失败，请稍后重试', duration: 4 });
@@ -305,11 +302,11 @@ export default {
       if (!this.searchInput) {
         this.$emit('upSuccess', 'teacher');
       } else {
-        adminModel.searchUser({ role: 'student', name: this.searchInput }).then((res) => {
+        adminModel.searchUser({ role: 'teacher', name: this.searchInput }).then((res) => {
           if (res.retcode === 0) {
             console.log(res);
 
-            this.$emit('searchUser', res, res.data);
+            this.$emit('searchUser', res.data, 'teacher');
           } else {
             this.$Message.error({ content: '未找到该用户，请核对后重试', duration: 4 });
           }
@@ -325,6 +322,7 @@ export default {
     transStudentData () {
       const data = [];
       if (this.tableData) {
+        console.log(this.tableData);
         this.tableData.forEach((elem, idx) => {
           data.push(elem);
 

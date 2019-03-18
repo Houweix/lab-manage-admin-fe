@@ -1,9 +1,9 @@
 <template>
   <Card :bordered="false" shadow>
     <p slot="title" style="font-size: 20px">{{$route.meta.title}}</p>
-    <div class="upload">
+    <!-- <div class="upload">
       <upload-excel @receiveSelect="handleChangeRole" @upSuccess="handleUpSuccess"></upload-excel>
-    </div>
+    </div> -->
     <Tabs :value="activeTab" type="card" style="margin-top: 20px" @on-click="handleChangeTab">
       <TabPane label="学生管理" name="student">
         <!-- 表格 -->
@@ -23,7 +23,12 @@
         ></user-teacher>
       </TabPane>
       <TabPane label="管理员管理" name="admin">
-        <user-admin></user-admin>
+        <user-admin
+          :columns="newAdminTitle"
+          :tableData="adminData"
+          @upSuccess="handleUpSuccess"
+          @searchUser="setTableData"
+        ></user-admin>
       </TabPane>
     </Tabs>
   </Card>
@@ -93,6 +98,10 @@ export default {
             }
           } else {
             //  管理员
+            this.adminData = res.data;
+            if (res.data[0]) {
+              this.setColumns(res.data[0], 'admin');
+            }
           }
         }
       });
@@ -185,12 +194,34 @@ export default {
           elem.title = '性别';
         } else if (elem.title === 'class_name') {
           elem.title = '班级';
-        } else if (elem.title === 'sex') {
-          elem.title = '性别';
+        } else if (elem.title === 'course_id') {
+          elem.title = '课程';
         }
       });
 
       return Array.from(this.teacherTitle).length === 0 ? arr.concat(Array.from(this.teacherTitle)) : newArr;
+    },
+    newAdminTitle () {
+      const arr = [];
+      const newArr = arr.concat(this.adminTitle);
+      newArr.push({
+        title: '操作',
+        slot: 'action',
+        width: 170,
+        align: 'center',
+        fixed: 'right'
+      });
+      this.adminTitle.forEach((elem) => {
+        if (elem.title === 'id') {
+          elem.title = '工号';
+        } else if (elem.title === 'password') {
+          elem.title = '密码';
+        } else if (elem.title === 'name') {
+          elem.title = '姓名';
+        }
+      });
+
+      return Array.from(this.adminTitle).length === 0 ? arr.concat(Array.from(this.adminTitle)) : newArr;
     }
 
   }

@@ -240,24 +240,22 @@ export default {
         }
       });
     },
-    //  点击弹窗的确认编添加
+    //  点击弹窗的确认添加
     handleAdd () {
       const refName = 'addForm';
       this.$refs[refName].validate((valid) => {
         if (valid) {
-          console.log(111);
           const pForm = deepClone(this.addForm);
-          // alert('pass');
 
           adminModel.addUser({ role: 'student', postData: pForm }).then((res) => {
             if (res.retcode === 0) {
               console.log(res);
 
               this.$Message.success('添加成功!');
-              this.eaddModal = false;
+              this.addModal = false;
 
               // 刷新数据
-              this.$emit('upSuccess');
+              this.$emit('upSuccess', 'student');
             } else {
               this.$Message.error({ content: '添加失败，请稍后重试', duration: 4 });
             }

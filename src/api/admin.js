@@ -120,6 +120,8 @@ export default {
     role,
     postData
   }) => {
+    console.log(`add------------------`);
+    console.log(role);
     const data = {
       role: role,
       userData: postData

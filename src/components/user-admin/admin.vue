@@ -1,5 +1,6 @@
 <template>
   <div class="admin-container">
+    <Button type="primary" icon="md-add" @click="addModal = true">点击添加一条记录</Button>
     <Table :columns="columns" :data="transAdminData" style="margin-top: 10px;">
       <!-- 插槽，显示每行的编辑功能 -->
       <template slot-scope="{ row }" slot="action">
@@ -9,7 +10,7 @@
     </Table>
 
     <!-- 添加modal -->
-    <Modal v-model="addModal" title="添加管理员信息" @on-visible-change="handleOpenAdd" @on-ok="handleAdd">
+    <Modal v-model="addModal" title="添加管理员信息" @on-ok="handleAdd">
       <Form :model="addForm" :label-width="80" :rules="addRule" ref="addForm">
         <FormItem label="姓名" prop="name">
           <i-input v-model="addForm.name" style="width: 150px;"></i-input>
@@ -47,6 +48,7 @@
 
 <script>
 import adminModel from "@/api/admin.js";
+import { deepClone } from '@/libs/tools.js';
 
 export default {
   data () {
@@ -141,11 +143,6 @@ export default {
       // todo
       this.editForm.id = row.id;
       this.editForm.name = row.name;
-      if (row.sex === '男') {
-        this.editForm.sex = 'm';
-      } else {
-        this.editForm.sex = 'f';
-      }
       this.editForm.class_name = row.class_name;
 
       // 打开弹窗
@@ -176,7 +173,7 @@ export default {
         if (valid) {
           console.log('confirm');
 
-          const pForm = deepClone(this.editForm);
+          const pForm = this.editForm;
 
           console.table(pForm);
 
@@ -187,6 +184,8 @@ export default {
                 delete pForm[key];
               }
             });
+
+          console.log(pForm);
 
           adminModel.editInfo({ role: 'admin', editForm: pForm }).then((res) => {
             if (res.retcode === 0) {
@@ -212,17 +211,18 @@ export default {
     //  点击弹窗的确认添加
     handleAdd () {
       const refName = 'addForm';
+      // debugger
       this.$refs[refName].validate((valid) => {
+        console.log(this.addForm);
         if (valid) {
           const pForm = deepClone(this.addForm);
-          // alert('pass');
 
           adminModel.addUser({ role: 'admin', postData: pForm }).then((res) => {
             if (res.retcode === 0) {
               console.log(res);
 
               this.$Message.success('添加成功!');
-              this.eaddModal = false;
+              this.addModal = false;
 
               // 刷新数据
               this.$emit('upSuccess', 'admin');
@@ -234,17 +234,12 @@ export default {
           this.$Message.error({ content: '请检查完整后重新提交!', duration: 4 });
         }
       });
-    },
-    handleReset () {
-      this.searchInput = '';
-      this.$emit('upSuccess', 'admin');
     }
   },
   computed: {
     transAdminData () {
       const data = [];
       if (this.tableData) {
-        console.log(this.tableData);
         this.tableData.forEach((elem, idx) => {
           data.push(elem);
         });

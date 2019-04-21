@@ -96,12 +96,14 @@ export default {
             if (res.data[0]) {
               this.setColumns(res.data[0], 'teacher');
             }
-          } else {
+          } else if (name === 'admin') {
             //  管理员
             this.adminData = res.data;
             if (res.data[0]) {
               this.setColumns(res.data[0], 'admin');
             }
+          } else {
+            console.error('错误角色');
           }
         }
       });

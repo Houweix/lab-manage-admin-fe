@@ -8,13 +8,7 @@
       <p class="t1">黑龙江大学</p>
       <p class="t2">实验室管理系统</p>
     </div>
-    <div class="login-con">
-      <Card icon="log-in" title="欢迎登录" :bordered="false">
-        <div class="form-con">
-          <login-form @on-success-valid="handleSubmit"></login-form>
-        </div>
-      </Card>
-    </div>
+    <login-form @on-success-valid="handleSubmit"></login-form>
   </div>
 </template>
 

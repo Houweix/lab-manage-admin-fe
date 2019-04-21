@@ -39,6 +39,10 @@
           </Select>
         </FormItem>
 
+        <FormItem label="班级" prop="class">
+          <i-input v-model="editForm.class" style="width: 150px;"></i-input>
+        </FormItem>
+
         <FormItem label="新密码">
           <i-input v-model="editForm.password" style="width: 150px;" placeholder="如不修改不填写即可"></i-input>
         </FormItem>
@@ -102,7 +106,8 @@ export default {
         id: -1,
         name: '',
         password: '',
-        sex: 'f'
+        sex: 'f',
+        class: ''
       },
       //  添加表格
       addForm: {
@@ -175,6 +180,7 @@ export default {
       } else {
         this.editForm.sex = 'f';
       }
+      this.editForm.class = row.class;
 
       // 打开弹窗
       this.editModal = true;
@@ -224,11 +230,7 @@ export default {
               this.$Message.success('修改成功!');
               this.editModal = false;
 
-              if (this.searchInput) {
-                this.handleSearch();
-              } else {
-                this.$emit('upSuccess', 'student');
-              }
+              this.$emit('upSuccess', 'student');
             } else {
               this.$Message.error({ content: '修改失败，请稍后重试', duration: 4 });
             }

@@ -256,12 +256,7 @@ export default {
 
               this.$Message.success('修改成功!');
               this.editModal = false;
-
-              if (this.searchInput) {
-                this.handleSearch();
-              } else {
-                this.$emit('upSuccess', 'teacher');
-              }
+              this.$emit('upSuccess', 'teacher');
             } else {
               this.$Message.error({ content: '修改失败，请稍后重试', duration: 4 });
             }

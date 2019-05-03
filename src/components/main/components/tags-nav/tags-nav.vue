@@ -107,6 +107,7 @@ export default {
       }
     },
     handleTagsOption (type) {
+      console.log(type);
       if (type.includes('all')) {
         // 关闭所有，除了home
         let res = this.list.filter(item => item.name === this.$config.homeName)

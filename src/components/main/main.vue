@@ -37,14 +37,15 @@
       </Header>
       <Content class="main-content-con">
         <Layout class="main-layout-con">
-          <div class="tag-nav-wrapper">
+          <!-- <div class="tag-nav-wrapper">
             <tags-nav
               :value="$route"
               @input="handleClick"
               :list="tagNavList"
               @on-close="handleCloseTag"
+              ref="tag"
             />
-          </div>
+          </div> -->
           <Content class="content-wrapper">
             <keep-alive :include="cacheList">
               <router-view/>
@@ -204,6 +205,7 @@ export default {
         name: this.$config.homeName
       })
     }
+    // this.$refs.tag.handleTagsOption('all');
     // 获取未读消息条数
     // this.getUnreadMessageCount();
   }

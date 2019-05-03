@@ -163,8 +163,8 @@ export default {
   height: 570px;
   margin: 0 auto;
   position: absolute;
-  right: 190px;
-  top: 100px;
+  right: 60px;
+  top: 70px;
 }
 
 .panda {

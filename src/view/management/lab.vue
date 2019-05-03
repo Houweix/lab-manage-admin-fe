@@ -4,7 +4,7 @@
       <Button type="primary" icon="md-add" @click="addModal = true">点击添加实验室</Button>
 
       <!-- 主体显示表格 -->
-      <Table :columns="columns" :data="labData" style="margin-top: 10px;">
+      <Table :columns="labTitle" :data="transLabData" style="margin-top: 10px;">
         <!-- 插槽，显示每行的编辑功能 -->
         <template slot-scope="{ row }" slot="action">
           <Button type="primary" size="default" style="margin-right: 5px" @click="labEdit(row)">编辑</Button>
@@ -13,61 +13,68 @@
       </Table>
 
       <!-- 编辑modal -->
-      <!-- <Modal
+      <Modal
         v-model="editModal"
-        title="编辑课程信息"
+        title="编辑实验室信息"
         @on-visible-change="handleOpenEdit"
         @on-ok="handleEdit"
       >
-        <Form :model="editForm" :label-width="80" :rules="editRule" ref="editForm">
-          <FormItem label="姓名" prop="name">
+        <Form :model="editForm" :label-width="120" ref="addForm">
+          <FormItem label="实验室名称" prop="name">
             <i-input v-model="editForm.name" style="width: 150px;"></i-input>
-            <span style="margin-left: 10px;">长度2~10位</span>
           </FormItem>
 
-          <FormItem label="Select">
-            <Select v-model="editForm.sex" style="width: 150px;">
-              <Option value="m">男</Option>
-              <Option value="f">女</Option>
+          <FormItem label="实验室管理员名称" prop="admin_name">
+            <Select filterable v-model="editForm.admin_name" style="width: 150px;">
+              <Option :value="item.id" :label="item.name" v-for="(item,idx) in admin" :key="idx"></Option>
             </Select>
           </FormItem>
 
-          <FormItem label="新密码">
-            <i-input v-model="editForm.password" style="width: 150px;" placeholder="如不修改不填写即可"></i-input>
+          <FormItem label="是否开放" prop="status">
+            <i-switch v-model="editForm.status"/>
+          </FormItem>
+
+          <FormItem label="座位数" prop="seat">
+            <i-input v-model="editForm.seat" style="width: 150px;"></i-input>
           </FormItem>
         </Form>
-      </Modal>-->
+      </Modal>
       <!-- 添加modal -->
-      <!-- <Modal
+      <Modal
         v-model="addModal"
-        title="添加学生信息"
+        title="添加实验室信息"
         @on-visible-change="handleOpenAdd"
         @on-ok="handleAdd"
       >
-        <Form :model="addForm" :label-width="80" :rules="addRule" ref="addForm">
-          <FormItem label="姓名" prop="name">
+        <Form :model="addForm" :label-width="120" ref="addForm">
+          <FormItem label="实验室名称" prop="name">
             <i-input v-model="addForm.name" style="width: 150px;"></i-input>
-            <span style="margin-left: 10px;">长度2~10位</span>
           </FormItem>
 
-          <FormItem label="性别" prop="sex">
-            <Select v-model="addForm.sex" style="width: 150px;">
-              <Option value="m">男</Option>
-              <Option value="f">女</Option>
+          <FormItem label="实验室管理员名称" prop="admin_name">
+            <Select filterable v-model="addForm.admin_name" style="width: 150px;">
+              <Option :value="item.id" :label="item.name" v-for="(item,idx) in admin" :key="idx"></Option>
             </Select>
           </FormItem>
 
-          <FormItem label="密码" prop="password">
-            <i-input v-model="addForm.password" style="width: 150px;"></i-input>
-            <span style="margin-left: 10px;">长度5~10位</span>
+          <FormItem label="是否开放" prop="status">
+            <i-switch v-model="addForm.status"/>
+          </FormItem>
+
+          <FormItem label="座位数" prop="seat">
+            <i-input v-model="addForm.seat" style="width: 150px;"></i-input>
           </FormItem>
         </Form>
-      </Modal>-->
+      </Modal>
     </div>
   </Card>
 </template>
 
 <script>
+import adminModel from "@/api/admin.js";
+import { setColumns } from '@/libs/util'
+import { deepClone } from '@/libs/tools.js';
+
 export default {
   name: 'lab',
   data () {
@@ -75,32 +82,148 @@ export default {
       columns: [],
       // 添加的弹窗开关
       addModal: false,
-      labData: []
-
+      editModal: false,
+      labData: [],
+      addForm: {
+        name: '',
+        admin_name: '',
+        status: true,
+        seat: ''
+      },
+      editForm: {
+        name: '',
+        admin_name: '',
+        status: true,
+        seat: ''
+      },
+      admin: []
     }
   },
   methods: {
     // 获取实验室信息
     getLab () {
+      adminModel.getLab().then((res) => {
+        if (res.retcode === 0) {
+          // console.log(res);
+          this.labData = res.data;
+        }
+      });
+    },
+    //  获取管理员列表
+    getAdmin () {
+      adminModel.getAdmin().then((res) => {
+        if (res.retcode === 0) {
+          // console.log(res);
+          this.admin = res.data;
+        }
+      });
+    },
+    //  添加
+    handleAdd () {
+      const pForm = deepClone(this.addForm);
+
+      adminModel.addLab({ postData: pForm }).then((res) => {
+        if (res.retcode === 0) {
+          console.log(res);
+
+          this.$Message.success('添加成功!');
+          this.addModal = false;
+
+          this.getLab();
+        } else {
+          this.$Message.error({ content: '添加失败，请稍后重试', duration: 4 });
+        }
+      });
+    },
+    handleEdit () {
 
     },
-    labEdit () {
-
+    //  点开添加的初始化
+    handleOpenAdd () {
+      this.addForm.name = '';
+      this.addForm.admin_name = '';
+      this.addForm.seat = '';
+      this.getAdmin();
     },
+    handleOpenEdit () {
+      this.getAdmin();
+    },
+
+    //  编辑
+    labEdit (row) {
+      // 初始化数据
+      this.editForm.id = row.id;
+      this.editForm.admin_name = this.labData.find(elem => elem.id === row.id).admin_name;
+      this.editForm.name = row.name;
+      if (row.status === '未开放') {
+        this.editForm.sex = 'false';
+      } else {
+        this.editForm.sex = 'true';
+      }
+      this.editForm.seat = row.seat;
+
+      // 打开弹窗
+      this.editModal = true;
+    },
+    // 删除
     labDelete () {
 
+    },
+    getNameById (id) {
+      return this.admin.find(item => Number(item.id) === Number(id)) ? this.admin.find(item => Number(item.id) === Number(id)).name : '';
     }
   },
   computed: {
     // 班级的columns
     labTitle () {
-      return this.data;
+      if (this.labData[0]) {
+        const arr = [];
+        const newArr = arr.concat(setColumns(this.labData[0]));
+        // 操作列
+        newArr.push({
+          title: '操作',
+          slot: 'action',
+          width: 170,
+          align: 'center',
+          fixed: 'right'
+        });
+        newArr.forEach((elem) => {
+          if (elem.title === 'id') {
+            elem.title = '实验室id';
+          } else if (elem.title === 'name') {
+            elem.title = '实验室名称';
+          } else if (elem.title === 'admin_name') {
+            elem.title = '管理员名称';
+          } else if (elem.title === 'status') {
+            elem.title = '实验室状态';
+          } else if (elem.title === 'seat') {
+            elem.title = '座位数';
+          }
+        });
+
+        return newArr;
+      }
+    },
+    transLabData () {
+      const data = [];
+      if (this.labData[0]) {
+        this.labData.forEach((elem, idx) => {
+          data.push(deepClone(elem));
+          // 性别过滤
+          if (elem.status === 'false') {
+            data[idx].status = '未开放';
+          } else {
+            data[idx].status = '开放';
+          }
+          data[idx].admin_name = this.getNameById(data[idx].admin_name) ? this.getNameById(data[idx].admin_name) : data[idx].admin_name;
+        });
+      }
+      return data;
     }
-    // classData () {
-    // }
   },
   mounted () {
     this.getLab();
+    this.getAdmin();
   }
 }
 </script>

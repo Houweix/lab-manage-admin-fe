@@ -140,7 +140,6 @@ export default {
     // 点击编辑一条信息
     adminEdit (row) {
       // 初始化数据
-      // todo
       this.editForm.id = row.id;
       this.editForm.name = row.name;
       this.editForm.class_name = row.class_name;

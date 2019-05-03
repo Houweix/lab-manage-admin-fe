@@ -397,3 +397,14 @@ export const setTitle = (routeItem, vm) => {
   const resTitle = pageTitle ? `${title} - ${pageTitle}` : title
   window.document.title = resTitle
 }
+
+//  设置table的列名
+/**
+ *
+ * @param {*} table的第一行数据
+ */
+export const setColumns = (data) => {
+  return Object.keys(data).map(item => {
+    return { title: item, key: item };
+  });
+}

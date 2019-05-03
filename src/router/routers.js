@@ -19,170 +19,164 @@ import parentView from '@/components/parent-view';
  * }
  */
 
-export default [{
-  path: '/login',
-  name: 'login',
-  meta: {
-    title: 'Login - 登录',
-    hideInMenu: true
+export default [
+  {
+    path: '/login',
+    name: 'login',
+    meta: {
+      title: 'Login - 登录',
+      hideInMenu: true
+    },
+    component: () => import('@/view/login/login.vue')
   },
-  component: () => import('@/view/login/login.vue')
-},
-{
-  path: '/',
-  name: '_home',
-  redirect: '/home',
-  component: Main,
-  meta: {
-    hideInMenu: true,
-    notCache: true
-  },
-  children: [{
-    path: '/home',
-    name: 'home',
+  {
+    path: '/',
+    name: '_home',
+    redirect: '/home',
+    component: Main,
     meta: {
       hideInMenu: true,
-      title: '首页',
-      notCache: true,
-      icon: 'md-home'
+      notCache: true
     },
-    component: () => import('@/view/single-page/home')
-  }]
-},
+    children: [
+      {
+        path: '/home',
+        name: 'home',
+        meta: {
+          hideInMenu: true,
+          title: '首页',
+          notCache: true,
+          icon: 'md-home'
+        },
+        component: () => import('@/view/single-page/home')
+      }
+    ]
+  },
   // 管理员的管理相关
-{
-  path: '/user',
-  name: 'user',
-  meta: {
-    hideInBread: true
-  },
-  component: Main,
-  children: [{
-    path: 'user_page',
-    name: 'user_page',
+  {
+    path: '/user',
+    name: 'user',
     meta: {
-      title: '用户管理',
-      icon: 'ios-person'
-    },
-    component: () => import('@/view/user/user.vue')
-  }]
-},
-{
-  path: '/management',
-  name: 'management',
-  meta: {
-    title: '基本信息管理',
-    icon: 'ios-cog'
-  },
-  component: Main,
-  children: [{
-    path: 'lab',
-    name: 'lab',
-    meta: {
-      title: '实验室管理',
-      icon: 'ios-flask'
-    },
-    component: () => import('@/view/management/lab.vue')
-  }]
-},
-{
-  path: '/course',
-  name: 'course',
-  meta: {
-    title: '课程管理',
-    icon: 'ios-school'
-  },
-  component: Main,
-  children: [{
-    path: 'course_page',
-    name: 'course_page',
-    meta: {
-      title: '基本课程管理',
-      icon: 'ios-planet'
-    },
-    component: () => import('@/view/course/course_page.vue')
-  }, {
-    path: 'grade',
-    name: 'grade',
-    meta: {
-      title: '实验课成绩管理',
-      icon: 'ios-podium'
-    },
-    component: () => import('@/view/course/grade.vue')
-  }]
-}, {
-  path: '/public',
-  name: 'public',
-  meta: {
-    title: '公共信息管理',
-    icon: 'ios-list-box'
-  },
-  component: Main,
-  children: [{
-    path: 'rule',
-    name: 'rule',
-    meta: {
-      title: '规章制度',
-      icon: 'md-lock'
-    },
-    component: () => import('@/view/public/rule.vue')
-  }, {
-    path: 'post',
-    name: 'post',
-    meta: {
-      title: '实验课成绩管理',
-      icon: 'ios-megaphone'
-    },
-    component: () => import('@/view/public/post.vue')
-  }]
-},
-/*   {
-    // 教师的课程管理 todo
-    path: '/subject',
-    name: 'subject',
-    meta: {
-      title: '公共信息管理',
-      icon: 'ios-list-box'
+      hideInBread: true,
+      identity: 'admin'
     },
     component: Main,
-    children: [{
-      path: 'rule',
-      name: 'rule',
-      meta: {
-        title: '规章制度',
-        icon: 'md-lock'
-      },
-      component: () => import('@/view/public/rule.vue')
-    }, {
-      path: 'post',
-      name: 'post',
-      meta: {
-        title: '实验课成绩管理',
-        icon: 'ios-megaphone'
-      },
-      component: () => import('@/view/public/post.vue')
-    }]
-  }, */
-  // 个人中心页面
-{
-  path: '/personal',
-  name: 'personal',
-  meta: {
-    hideInMenu: true,
-    title: '个人中心'
+    children: [
+      {
+        path: 'user_page',
+        name: 'user_page',
+        meta: {
+          title: '用户管理',
+          icon: 'ios-person'
+        },
+        component: () => import('@/view/user/user.vue')
+      }
+    ]
   },
-  component: Main,
-  children: [{
-    path: 'personal',
+  {
+    path: '/management',
+    name: 'management',
+    meta: {
+      title: '基本信息管理',
+      icon: 'ios-cog',
+      identity: 'admin'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'lab',
+        name: 'lab',
+        meta: {
+          title: '实验室管理',
+          icon: 'ios-flask',
+          identity: 'admin'
+        },
+        component: () => import('@/view/management/lab.vue')
+      }
+    ]
+  },
+  {
+    path: '/course',
+    name: 'course',
+    meta: {
+      title: '课程管理',
+      icon: 'ios-school',
+      identity: 'teacher'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'course_page',
+        name: 'course_page',
+        meta: {
+          title: '基本课程管理',
+          icon: 'ios-planet'
+        },
+        component: () => import('@/view/course/course_page.vue')
+      }
+    ]
+  },
+  {
+    path: '/grade',
+    name: 'grade',
+    meta: {
+      title: '课程管理',
+      icon: 'ios-school',
+      identity: 'teacher'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'grade_page',
+        name: 'grade_page',
+        meta: {
+          title: '实验课成绩管理',
+          icon: 'ios-podium'
+        },
+        component: () => import('@/view/course/grade.vue')
+      }
+    ]
+  },
+  {
+    path: '/public',
+    name: 'public',
+    component: Main,
+    meta: {
+      identity: 'admin'
+    },
+    children: [
+      {
+        path: 'post',
+        name: 'post',
+        meta: {
+          title: '公告管理',
+          icon: 'ios-megaphone'
+        },
+        component: () => import('@/view/public/post.vue')
+      }
+    ]
+  },
+  {
+    path: '/personal',
     name: 'personal',
     meta: {
-      title: '个人中心',
-      beforeCloseName: 'before_close_normal'
+      hideInMenu: true,
+      title: '个人中心'
     },
-    component: () => import('@/view/personal/personal.vue')
-  }]
-},
-{
+    component: Main,
+    children: [
+      {
+        path: 'personal',
+        name: 'personal',
+        meta: {
+          title: '个人中心',
+          beforeCloseName: 'before_close_normal'
+        },
+        component: () => import('@/view/personal/personal.vue')
+      }
+    ]
+  }
+  /* {
   path: '',
   name: 'doc',
   meta: {
@@ -571,5 +565,5 @@ export default [{
     hideInMenu: true
   },
   component: () => import('@/view/error-page/404.vue')
-}
-]
+} */
+];

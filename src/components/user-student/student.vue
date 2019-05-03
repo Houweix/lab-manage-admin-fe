@@ -68,6 +68,10 @@
           <i-input v-model="addForm.password" style="width: 150px;"></i-input>
           <span style="margin-left: 10px;">长度5~10位</span>
         </FormItem>
+
+        <FormItem label="班级" prop="class">
+          <i-input v-model="addForm.class" style="width: 150px;"></i-input>
+        </FormItem>
       </Form>
     </Modal>
   </div>
@@ -113,7 +117,8 @@ export default {
       addForm: {
         name: '',
         password: '',
-        sex: ''
+        sex: '',
+        class: ''
       },
       //  编辑弹窗的验证
       editRule: {
@@ -130,6 +135,9 @@ export default {
         ],
         password: [
           { validator: validatePass, required: true, trigger: 'blur' }
+        ],
+        class: [
+          { required: true, message: '请填写班级' }
         ]
       },
       //  搜索框的内容

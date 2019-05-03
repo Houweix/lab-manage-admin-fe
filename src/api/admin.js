@@ -151,7 +151,13 @@ export default {
       method: 'post'
     })
   },
-
+  //  获取管理员列表
+  getAdmin: () => {
+    return axios.request({
+      url: '/admin/getAdmin',
+      method: 'get'
+    })
+  },
   // 基本信息管理---------------------
 
   // 课程
@@ -162,6 +168,27 @@ export default {
       url: '/course/getAllData',
       data,
       method: 'get'
+    })
+  },
+
+  // 获取全部实验室
+  getLab: () => {
+    return axios.request({
+      url: '/lab/getLabData',
+      method: 'get'
+    })
+  },
+  //  添加实验室
+  addLab: ({
+    postData
+  }) => {
+    const data = {
+      labData: postData
+    };
+    return axios.request({
+      url: '/lab/addLab',
+      data,
+      method: 'post'
     })
   }
 }

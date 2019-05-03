@@ -11,11 +11,12 @@
       width="auto"
       @on-select="handleSelect"
     >
-      <template v-for="item in menuList">
+      <template v-for="item in List">
         <template v-if="item.children && item.children.length === 1">
-          <side-menu-item v-if="showChildren(item)" :key="`menu-${item.name}`" :parent-item="item"></side-menu-item>
+          <side-menu-item v-show="item.show" v-if="showChildren(item)" :key="`menu-${item.name}`" :parent-item="item"></side-menu-item>
           <menu-item
             v-else
+            v-show="item.show"
             :name="getNameOrHref(item, true)"
             :key="`menu-${item.children[0].name}`"
           >
@@ -24,8 +25,8 @@
           </menu-item>
         </template>
         <template v-else>
-          <side-menu-item v-if="showChildren(item)" :key="`menu-${item.name}`" :parent-item="item"></side-menu-item>
-          <menu-item v-else :name="getNameOrHref(item)" :key="`menu-${item.name}`">
+          <side-menu-item v-show="item.show" v-if="showChildren(item)" :key="`menu-${item.name}`" :parent-item="item"></side-menu-item>
+          <menu-item v-else v-show="item.show" :name="getNameOrHref(item)" :key="`menu-${item.name}`">
             <common-icon :type="item.icon || ''"/>
             <span>{{ showTitle(item) }}</span>
           </menu-item>
@@ -72,6 +73,8 @@ import SideMenuItem from './side-menu-item.vue'
 import CollapsedMenu from './collapsed-menu.vue'
 import { getUnion } from '@/libs/tools'
 import mixin from './mixin'
+import Cookies from "js-cookie";
+import { deepClone } from '@/libs/tools.js';
 
 export default {
   name: 'SideMenu',
@@ -114,7 +117,8 @@ export default {
   },
   data () {
     return {
-      openedNames: []
+      openedNames: [],
+      identity: ''
     }
   },
   methods: {
@@ -132,9 +136,29 @@ export default {
   computed: {
     textColor () {
       return this.theme === 'dark' ? '#fff' : '#495060'
+    },
+    List() {
+      const arr = deepClone(this.menuList);
+      arr.forEach((elem) => {
+        if (elem.meta.identity !== this.identity) {
+          elem.show = false;
+        } else {
+          elem.show = true;
+        }
+      });
+      return arr;
     }
   },
   watch: {
+    identity(val) {
+      this.menuList.forEach((elem) => {
+        if (elem.meta.identity === val) {
+          elem.show = true;
+        } else {
+          elem.show = false;
+        }
+      });
+    },
     activeName (name) {
       if (this.accordion) this.openedNames = this.getOpenedNamesByActiveName(name)
       else this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
@@ -149,7 +173,8 @@ export default {
     }
   },
   mounted () {
-    this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
+    this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name));
+    this.identity = JSON.parse(Cookies.get('user')).identity;
   }
 }
 </script>

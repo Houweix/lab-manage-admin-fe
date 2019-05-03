@@ -35,7 +35,7 @@ export default {
               Cookies.set(
                 "user",
                 // 设置4h的Cookie有效期
-                { name: res.data.name, identity: res.data.identity }, { expires: 1 / 8 }
+                { name: res.data.name, identity: res.data.identity }, { expires: 1 / 6 }
               );
             }
 

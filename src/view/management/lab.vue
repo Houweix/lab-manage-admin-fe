@@ -93,7 +93,7 @@ export default {
       editForm: {
         name: '',
         admin_name: '',
-        status: true,
+        status: false,
         seat: ''
       },
       admin: []
@@ -136,7 +136,20 @@ export default {
       });
     },
     handleEdit () {
+      const pForm = deepClone(this.editForm);
 
+      adminModel.editLab({ postData: pForm }).then((res) => {
+        if (res.retcode === 0) {
+          console.log(res);
+
+          this.$Message.success('编辑成功!');
+          this.editModal = false;
+
+          this.getLab();
+        } else {
+          this.$Message.error({ content: '编辑失败，请稍后重试', duration: 4 });
+        }
+      });
     },
     //  点开添加的初始化
     handleOpenAdd () {
@@ -156,18 +169,39 @@ export default {
       this.editForm.admin_name = this.labData.find(elem => elem.id === row.id).admin_name;
       this.editForm.name = row.name;
       if (row.status === '未开放') {
-        this.editForm.sex = 'false';
+        this.editForm.status = false;
       } else {
-        this.editForm.sex = 'true';
+        this.editForm.status = true;
       }
       this.editForm.seat = row.seat;
 
       // 打开弹窗
-      this.editModal = true;
+      setTimeout(() => {
+        this.editModal = true;
+      });
     },
     // 删除
-    labDelete () {
+    labDelete (row) {
+      this.$Modal.confirm({
+        title: '警告',
+        content: '<p>确认要删除该实验室的信息吗？</p>',
+        onOk: () => {
+          adminModel.deleteLab({ id: row.id }).then((res) => {
+            if (res.retcode === 0) {
+              console.log(res);
 
+              this.$Message.success('删除成功!');
+
+              // 刷新数据
+              this.getLab();
+            } else {
+              // 刷新数据
+              this.getLab();
+              this.$Message.error({ content: '删除失败，请稍后重试', duration: 4 });
+            }
+          });
+        }
+      });
     },
     getNameById (id) {
       return this.admin.find(item => Number(item.id) === Number(id)) ? this.admin.find(item => Number(item.id) === Number(id)).name : '';

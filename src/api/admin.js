@@ -171,6 +171,7 @@ export default {
     })
   },
 
+  //  !!  实验室
   // 获取全部实验室
   getLab: () => {
     return axios.request({
@@ -190,5 +191,83 @@ export default {
       data,
       method: 'post'
     })
+  },
+
+  //  编辑实验室
+  editLab: ({
+    postData
+  }) => {
+    const data = {
+      labData: postData
+    };
+    return axios.request({
+      url: '/lab/editLab',
+      data,
+      method: 'post'
+    })
+  },
+  //  删除实验室
+  deleteLab: ({
+    id
+  }) => {
+    const data = {
+      labId: id
+    };
+
+    return axios.request({
+      url: '/lab/deleteLab',
+      data,
+      method: 'post'
+    })
+  },
+
+  //  !! 公告
+  getPost: () => {
+    return axios.request({
+      url: '/post/getData',
+      method: 'get'
+    })
+  },
+  //  添加公告
+  addPost: ({
+    pdata
+  }) => {
+    const data = {
+      postData: pdata
+    };
+    return axios.request({
+      url: '/post/addData',
+      data,
+      method: 'post'
+    })
+  },
+
+  //  编辑公告
+  editPost: ({
+    pdata
+  }) => {
+    const data = {
+      postData: pdata
+    };
+    return axios.request({
+      url: '/post/editData',
+      data,
+      method: 'post'
+    })
+  },
+  //  删除公告
+  deletePost: ({
+    id
+  }) => {
+    const data = {
+      postId: id
+    };
+
+    return axios.request({
+      url: '/post/deleteData',
+      data,
+      method: 'post'
+    })
   }
+
 }

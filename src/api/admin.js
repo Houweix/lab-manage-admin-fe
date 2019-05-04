@@ -158,6 +158,20 @@ export default {
       method: 'get'
     })
   },
+  // 修改个人密码-------------
+  editPass: ({
+    editForm
+  }) => {
+    const data = {
+      editData: editForm
+    };
+
+    return axios.request({
+      url: '/admin/editPass',
+      data,
+      method: 'post'
+    })
+  },
   // 基本信息管理---------------------
 
   // 课程

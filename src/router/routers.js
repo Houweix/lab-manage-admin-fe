@@ -79,7 +79,8 @@ export default [
     meta: {
       title: '基本信息管理',
       icon: 'ios-cog',
-      identity: 'admin'
+      identity: 'admin',
+      hideInBread: true
     },
     component: Main,
     children: [
@@ -142,7 +143,9 @@ export default [
     name: 'public',
     component: Main,
     meta: {
-      identity: 'admin'
+      title: '公告管理',
+      identity: 'admin',
+      hideInBread: true
     },
     children: [
       {

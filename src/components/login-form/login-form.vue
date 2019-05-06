@@ -98,9 +98,9 @@ export default {
   data () {
     return {
       form: {
-        username: "20156386",
+        username: "200000",
         password: "123123",
-        identity: "admin"
+        identity: "teacher"
       },
       isFocus: false
     };

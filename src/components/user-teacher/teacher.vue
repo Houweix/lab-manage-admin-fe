@@ -219,6 +219,7 @@ export default {
       this.addForm.name = '';
       this.addForm.password = '';
       this.addForm.sex = '';
+      this.addForm.class_name = '';
 
       adminModel.getCourseData().then((res) => {
         if (res.retcode === 0) {
@@ -316,7 +317,7 @@ export default {
   computed: {
     transStudentData () {
       const data = [];
-      if (this.tableData) {
+      if (this.tableData[0]) {
         console.log(this.tableData);
         this.tableData.forEach((elem, idx) => {
           data.push(elem);

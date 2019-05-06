@@ -173,18 +173,6 @@ export default {
     })
   },
   // 基本信息管理---------------------
-
-  // 课程
-  getCourseData: () => {
-    const data = {};
-
-    return axios.request({
-      url: '/course/getAllData',
-      data,
-      method: 'get'
-    })
-  },
-
   //  !!  实验室
   // 获取全部实验室
   getLab: () => {
@@ -235,7 +223,7 @@ export default {
     })
   },
 
-  //  !! 公告
+  //  !! 公告------------------------
   getPost: () => {
     return axios.request({
       url: '/post/getData',
@@ -279,6 +267,57 @@ export default {
 
     return axios.request({
       url: '/post/deleteData',
+      data,
+      method: 'post'
+    })
+  },
+
+  // !! 课程 -------------------------------
+  getCourseData: () => {
+    const data = {};
+
+    return axios.request({
+      url: '/course/getAllData',
+      data,
+      method: 'get'
+    })
+  },
+  //  添加课程
+  addCourse: ({
+    pdata
+  }) => {
+    const data = {
+      postData: pdata
+    };
+    return axios.request({
+      url: '/course/addData',
+      data,
+      method: 'post'
+    })
+  },
+  //  编辑课程
+  editCourse: ({
+    pdata
+  }) => {
+    const data = {
+      postData: pdata
+    };
+    return axios.request({
+      url: '/course/editData',
+      data,
+      method: 'post'
+    })
+  },
+  //  删除课程
+  deleteCourse: ({
+    id
+  }) => {
+    const data = {
+      courseId: id
+    };
+
+    return axios.request({
+      url: '/course/deleteData',
       data,
       method: 'post'
     })

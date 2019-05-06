@@ -19,7 +19,40 @@
       </Table>
 
       <!-- 编辑modal -->
-      <Modal v-model="editModal" title="编辑公告信息" @on-ok="handleEdit"></Modal>
+      <Modal v-model="editModal" title="编辑课程信息" @on-ok="handleEdit">
+         <Form :model="editForm" :label-width="120" ref="addForm">
+          <FormItem label="课程名称" prop="name">
+            <i-input v-model="editForm.name" style="width: 150px;"></i-input>
+          </FormItem>
+
+          <FormItem label="实验室名称" prop="lab_id">
+            <Select filterable v-model="editForm.lab_id" style="width: 150px;">
+              <Option
+                :value="item.value"
+                :label="item.label"
+                v-for="(item,idx) in transLabData"
+                :key="idx"
+              ></Option>
+            </Select>
+          </FormItem>
+
+          <FormItem label="上课日期" prop="date">
+            <i-input v-model="editForm.date" placeholder="课程星期" style="width: 150px;"></i-input>
+          </FormItem>
+
+          <FormItem label="开始时间" prop="start_time">
+            <i-input v-model="editForm.start_time" placeholder="x时" style="width: 150px;"></i-input>
+          </FormItem>
+
+          <FormItem label="结束时间" prop="end_time">
+            <i-input v-model="editForm.end_time" placeholder="x时" style="width: 150px;"></i-input>
+          </FormItem>
+
+          <FormItem label="周数" prop="week">
+            <i-input v-model="editForm.week" placeholder="xx-xx" style="width: 150px;"></i-input>
+          </FormItem>
+        </Form>
+      </Modal>
       <!-- 添加modal -->
       <Modal
         v-model="addModal"
@@ -87,6 +120,7 @@ export default {
         week: ''
       },
       editForm: {
+        id: '',
         name: '',
         lab_id: '',
         date: '',
@@ -108,7 +142,7 @@ export default {
         }
       });
     },
-    // 获取公告信息
+    // 获取课程信息
     getCourse () {
       adminModel.getCourseData().then((res) => {
         if (res.retcode === 0) {
@@ -164,9 +198,13 @@ export default {
     //  编辑
     courseEdit (row) {
       // 初始化数据
+      this.editForm.name = row.name;
       this.editForm.id = row.id;
-      this.editForm.title = row.title;
-      this.editForm.content = row.content;
+      this.editForm.lab_id = this.courseData.find(elem => elem.id === row.id).lab_id;
+      this.editForm.date = row.date;
+      this.editForm.start_time = row.start_time;
+      this.editForm.end_time = row.end_time;
+      this.editForm.week = row.week;
 
       // 打开弹窗
       setTimeout(() => {
@@ -177,7 +215,7 @@ export default {
     courseDelete (row) {
       this.$Modal.confirm({
         title: '警告',
-        content: '<p>确认要删除该公告的信息吗？</p>',
+        content: '<p>确认要删除该课程的信息吗？</p>',
         onOk: () => {
           adminModel.deleteCourse({ id: row.id }).then((res) => {
             if (res.retcode === 0) {

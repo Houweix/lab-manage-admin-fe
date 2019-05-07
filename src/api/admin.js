@@ -321,6 +321,31 @@ export default {
       data,
       method: 'post'
     })
+  },
+
+  //  获取学生班级信息
+  getClass: () => {
+    const data = {};
+
+    return axios.request({
+      url: '/class/getClass',
+      data,
+      method: 'get'
+    })
+  },
+  //  根据班级名称查询该班级的课程
+  getCourseByClass: ({
+    name
+  }) => {
+    const data = {
+      className: name
+    };
+
+    return axios.request({
+      url: '/class/getCourseByClass',
+      data,
+      method: 'post'
+    })
   }
 
 }

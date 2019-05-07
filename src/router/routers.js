@@ -160,6 +160,27 @@ export default [
     ]
   },
   {
+    path: '/class',
+    name: 'class',
+    component: Main,
+    meta: {
+      title: '课程班级分配',
+      identity: 'admin',
+      hideInBread: true
+    },
+    children: [
+      {
+        path: 'class_page',
+        name: 'class_page',
+        meta: {
+          title: '课程班级分配',
+          icon: 'ios-book'
+        },
+        component: () => import('@/view/course/class.vue')
+      }
+    ]
+  },
+  {
     path: '/personal',
     name: 'personal',
     meta: {

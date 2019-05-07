@@ -97,10 +97,15 @@ export default {
   },
   data () {
     return {
+      // form: {
+      //   username: "200000",
+      //   password: "123123",
+      //   identity: "teacher"
+      // },
       form: {
-        username: "200000",
+        username: "20156386",
         password: "123123",
-        identity: "teacher"
+        identity: "admin"
       },
       isFocus: false
     };

@@ -97,16 +97,16 @@ export default {
   },
   data () {
     return {
-      // form: {
-      //   username: "200000",
-      //   password: "123123",
-      //   identity: "teacher"
-      // },
       form: {
-        username: "20156386",
+        username: "200000",
         password: "123123",
-        identity: "admin"
+        identity: "teacher"
       },
+      // form: {
+      //   username: "20156386",
+      //   password: "123123",
+      //   identity: "admin"
+      // },
       isFocus: false
     };
   },

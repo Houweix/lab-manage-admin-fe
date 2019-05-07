@@ -362,6 +362,22 @@ export default {
       data,
       method: 'post'
     })
+  },
+  //  根据班级和课程列出学生
+  getFilterStudentData: ({
+    classN,
+    courseN
+  }) => {
+    const data = {
+      className: classN,
+      courseName: courseN
+    };
+
+    return axios.request({
+      url: '/grade/getFilterStudentData',
+      data,
+      method: 'post'
+    })
   }
 
 }

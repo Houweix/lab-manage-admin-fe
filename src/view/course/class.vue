@@ -86,6 +86,7 @@ export default {
         }
       });
     },
+    //  获取指定班级的已选课程
     getCourseByClass (val) {
       adminModel.getCourseByClass({ name: val }).then((res) => {
         if (res.retcode === 0) {
@@ -94,13 +95,33 @@ export default {
         }
       });
     },
-    // 选择班级后
+    //  为指定的班级添加课程
+    addCourseByClass(val) {
+      adminModel.addCourseByClass({ classN: this.classSelect, courseN: val }).then((res) => {
+        if (res.retcode === 0) {
+          this.$Notice.success({
+            title: "添加成功"
+          });
+
+          this.getCourseByClass(this.classSelect);
+        }
+      });
+    },
+    // 班级
     getSelectClass (val) {
       this.getCourseByClass(val);
       // console.log(val);
     },
+    // 课程
     getSelectCourse (val) {
-      console.log(val);
+      if (this.classSelect) {
+        this.addCourseByClass(val);
+      } else {
+        this.$Notice.error({
+          title: "请先选择班级"
+        });
+      }
+      // console.log(val);
     },
     //  根据课程名字判断当前班级是否存在
     hasCourse(name) {
@@ -113,6 +134,7 @@ export default {
     this.getCourse();
   },
   computed: {
+    //  处理课程数据，增加已选择的过滤
     transCourseData () {
       const arr = [];
       if (this.courseData[0]) {

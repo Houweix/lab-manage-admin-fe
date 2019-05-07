@@ -346,6 +346,22 @@ export default {
       data,
       method: 'post'
     })
+  },
+  //  为指定的班级添加课程
+  addCourseByClass: ({
+    classN,
+    courseN
+  }) => {
+    const data = {
+      className: classN,
+      courseName: courseN
+    };
+
+    return axios.request({
+      url: '/class/addCourseByClass',
+      data,
+      method: 'post'
+    })
   }
 
 }

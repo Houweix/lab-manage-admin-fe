@@ -378,6 +378,47 @@ export default {
       data,
       method: 'post'
     })
+  },
+
+  //  根据班级和课程列出学生
+  getClassStudent: ({
+    classN
+  }) => {
+    const data = {
+      className: classN
+    };
+
+    return axios.request({
+      url: '/grade/getClassStudent',
+      data,
+      method: 'post'
+    })
+  },
+  //  添加成绩
+  addGrade: ({
+    pdata
+  }) => {
+    const data = {
+      postData: pdata
+    };
+    return axios.request({
+      url: '/grade/addGrade',
+      data,
+      method: 'post'
+    })
+  },
+  //  编辑成绩
+  editGrade: ({
+    pdata
+  }) => {
+    const data = {
+      postData: pdata
+    };
+    return axios.request({
+      url: '/grade/editGrade',
+      data,
+      method: 'post'
+    })
   }
 
 }

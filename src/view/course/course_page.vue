@@ -137,7 +137,6 @@ export default {
     getLab () {
       adminModel.getLab().then((res) => {
         if (res.retcode === 0) {
-          // console.log(res);
           this.labData = res.data;
         }
       });
@@ -146,7 +145,6 @@ export default {
     getCourse () {
       adminModel.getCourseData().then((res) => {
         if (res.retcode === 0) {
-          // console.log(res);
           this.courseData = res.data;
         }
       });

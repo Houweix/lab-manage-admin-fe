@@ -160,6 +160,7 @@ export default {
     },
     // 班级
     getSelectClass (val) {
+      this.courseSelect = '';
       this.getCourseByClass(val);
       this.getClassStudent(val);
     },

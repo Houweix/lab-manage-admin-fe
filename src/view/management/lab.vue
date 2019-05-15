@@ -244,10 +244,10 @@ export default {
         this.labData.forEach((elem, idx) => {
           data.push(deepClone(elem));
           // 性别过滤
-          if (elem.status === 'false') {
-            data[idx].status = '未开放';
-          } else {
+          if (elem.status === '1') {
             data[idx].status = '开放';
+          } else {
+            data[idx].status = '未开放';
           }
           data[idx].admin_name = this.getNameById(data[idx].admin_name) ? this.getNameById(data[idx].admin_name) : data[idx].admin_name;
         });

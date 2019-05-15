@@ -14,12 +14,11 @@
       <Form :model="addForm" :label-width="80" :rules="addRule" ref="addForm">
         <FormItem label="姓名" prop="name">
           <i-input v-model="addForm.name" style="width: 150px;"></i-input>
-          <span style="margin-left: 10px;">长度2~10位</span>
         </FormItem>
 
         <FormItem label="密码" prop="password">
           <i-input v-model="addForm.password" style="width: 150px;"></i-input>
-          <span style="margin-left: 10px;">长度5~10位</span>
+          <!-- <span style="margin-left: 10px;">长度5~10位</span> -->
         </FormItem>
       </Form>
     </Modal>
@@ -34,12 +33,10 @@
       <Form :model="editForm" :label-width="80" :rules="editRule" ref="editForm">
         <FormItem label="姓名" prop="name">
           <i-input v-model="editForm.name" style="width: 150px;"></i-input>
-          <span style="margin-left: 10px;">长度2~10位</span>
         </FormItem>
 
         <FormItem label="新密码" prop="password">
           <i-input v-model="editForm.password" style="width: 150px;" placeholder></i-input>
-          <span style="margin-left: 10px;">长度5~10位</span>
         </FormItem>
       </Form>
     </Modal>

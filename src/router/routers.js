@@ -33,6 +33,27 @@ export default [
       }
     ]
   },
+  {
+    path: '/course',
+    name: 'course',
+    meta: {
+      title: '课程管理',
+      icon: 'ios-school',
+      identity: 'admin'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'course_page',
+        name: 'course_page',
+        meta: {
+          title: '基本课程管理',
+          icon: 'ios-planet'
+        },
+        component: () => import('@/view/course/course_page.vue')
+      }
+    ]
+  },
   // 管理员的管理相关
   {
     path: '/user',
@@ -78,27 +99,6 @@ export default [
     ]
   },
   {
-    path: '/course',
-    name: 'course',
-    meta: {
-      title: '课程管理',
-      icon: 'ios-school',
-      identity: 'teacher'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'course_page',
-        name: 'course_page',
-        meta: {
-          title: '基本课程管理',
-          icon: 'ios-planet'
-        },
-        component: () => import('@/view/course/course_page.vue')
-      }
-    ]
-  },
-  {
     path: '/grade',
     name: 'grade',
     meta: {
@@ -120,27 +120,6 @@ export default [
     ]
   },
   {
-    path: '/public',
-    name: 'public',
-    component: Main,
-    meta: {
-      title: '公告管理',
-      identity: 'admin',
-      hideInBread: true
-    },
-    children: [
-      {
-        path: 'post',
-        name: 'post',
-        meta: {
-          title: '公告管理',
-          icon: 'ios-megaphone'
-        },
-        component: () => import('@/view/public/post.vue')
-      }
-    ]
-  },
-  {
     path: '/class',
     name: 'class',
     component: Main,
@@ -158,6 +137,27 @@ export default [
           icon: 'ios-book'
         },
         component: () => import('@/view/course/class.vue')
+      }
+    ]
+  },
+  {
+    path: '/public',
+    name: 'public',
+    component: Main,
+    meta: {
+      title: '公告管理',
+      identity: 'admin',
+      hideInBread: true
+    },
+    children: [
+      {
+        path: 'post',
+        name: 'post',
+        meta: {
+          title: '公告管理',
+          icon: 'ios-megaphone'
+        },
+        component: () => import('@/view/public/post.vue')
       }
     ]
   },

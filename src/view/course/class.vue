@@ -134,14 +134,15 @@ export default {
     },
     // 班级
     getSelectClass (val) {
+      this.courseSelect = '';
       this.getCourseByClass(val);
       // console.log(val);
     },
     // 课程
     getSelectCourse (val) {
-      if (this.classSelect) {
+      if (this.classSelect && val) {
         this.addCourseByClass(val);
-      } else {
+      } else if (val) {
         this.$Notice.error({
           title: "请先选择班级"
         });

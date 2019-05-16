@@ -21,7 +21,7 @@
       >
         <Form :model="editForm" :label-width="120" ref="addForm">
           <FormItem label="公告标题" prop="title">
-            <i-input v-model="editForm.title" style="width: 150px;"></i-input>
+            <i-input v-model="editForm.title" style="width: 150px;"z></i-input>
           </FormItem>
 
           <FormItem label="公告详情" prop="content">
@@ -43,7 +43,7 @@
       >
         <Form :model="addForm" :label-width="120" ref="addForm">
           <FormItem label="公告标题" prop="title">
-            <i-input v-model="addForm.title" style="width: 150px;"></i-input>
+            <i-input v-model="addForm.title" style="width: 150px;" placeholder="请输入标题"></i-input>
           </FormItem>
 
           <FormItem label="公告详情" prop="content">

@@ -34,6 +34,29 @@ export default [
     ]
   },
   {
+    path: '/management',
+    name: 'management',
+    meta: {
+      title: '基本信息管理',
+      icon: 'ios-cog',
+      identity: 'admin',
+      hideInBread: true
+    },
+    component: Main,
+    children: [
+      {
+        path: 'lab',
+        name: 'lab',
+        meta: {
+          title: '实验室管理',
+          icon: 'ios-flask',
+          identity: 'admin'
+        },
+        component: () => import('@/view/management/lab.vue')
+      }
+    ]
+  },
+  {
     path: '/course',
     name: 'course',
     meta: {
@@ -72,29 +95,6 @@ export default [
           icon: 'ios-person'
         },
         component: () => import('@/view/user/user.vue')
-      }
-    ]
-  },
-  {
-    path: '/management',
-    name: 'management',
-    meta: {
-      title: '基本信息管理',
-      icon: 'ios-cog',
-      identity: 'admin',
-      hideInBread: true
-    },
-    component: Main,
-    children: [
-      {
-        path: 'lab',
-        name: 'lab',
-        meta: {
-          title: '实验室管理',
-          icon: 'ios-flask',
-          identity: 'admin'
-        },
-        component: () => import('@/view/management/lab.vue')
       }
     ]
   },

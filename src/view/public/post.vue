@@ -1,5 +1,6 @@
 <template>
   <Card :bordered="false" shadow>
+    <p slot="title" style="font-size: 20px">公告管理</p>
     <div class="post-container">
       <Button type="primary" icon="md-add" @click="addModal = true">点击添加公告</Button>
 

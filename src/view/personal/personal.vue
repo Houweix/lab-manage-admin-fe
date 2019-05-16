@@ -30,7 +30,6 @@
                 type="password"
                 v-model="userForm.password2s"
                 placeholder="再次输入新密码"
-                @on-blur="handleCheck"
               >
                 <Icon type="ios-lock-outline" slot="prepend"></Icon>
               </i-input>

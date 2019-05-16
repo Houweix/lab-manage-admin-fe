@@ -44,22 +44,22 @@ export default {
   },
 
   //  上传用户信息表格文件
-  uploadResult: ({
-    title,
-    table,
-    uploadRole
-  }) => {
-    const data = {
-      tableTitle: title,
-      tableResults: table,
-      role: uploadRole
-    }
-    return axios.request({
-      url: '/admin/uploadResult',
-      data,
-      method: 'post'
-    })
-  },
+  // uploadResult: ({
+  //   title,
+  //   table,
+  //   uploadRole
+  // }) => {
+  //   const data = {
+  //     tableTitle: title,
+  //     tableResults: table,
+  //     role: uploadRole
+  //   }
+  //   return axios.request({
+  //     url: '/admin/uploadResult',
+  //     data,
+  //     method: 'post'
+  //   })
+  // },
 
   //  获取各种用户的信息
   getAllData: ({
@@ -390,6 +390,22 @@ export default {
 
     return axios.request({
       url: '/grade/getClassStudent',
+      data,
+      method: 'post'
+    })
+  },
+  // 删除班级关联的课程
+  deleteCourseByClass: ({
+    classN,
+    courseN
+  }) => {
+    const data = {
+      className: classN,
+      courseName: courseN
+    };
+
+    return axios.request({
+      url: '/grade/deleteCourseByClass',
       data,
       method: 'post'
     })

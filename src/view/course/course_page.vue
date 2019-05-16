@@ -1,6 +1,6 @@
 <template>
   <Card :bordered="false" shadow>
-    <div style="margin: 10px 0;font-size: 18px;">基本课程管理</div>
+    <p slot="title" style="font-size: 20px">基本课程管理</p>
     <div class="course-container">
       <Button type="primary" icon="md-add" @click="addModal = true">点击添加课程</Button>
 

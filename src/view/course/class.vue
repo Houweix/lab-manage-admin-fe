@@ -1,7 +1,7 @@
 <template>
   <div>
     <Card :bordered="false" shadow style="height:550px">
-      <div style="margin: 10px 0;font-size: 18px;">班级课程关联</div>
+      <p slot="title" style="font-size: 20px">班级课程关联</p>
       <Row :gutter="16">
         <i-col span="6">
           选择班级
@@ -15,14 +15,20 @@
           </Select>
         </i-col>
         <i-col span="6">
-          选择课程
+          选择课程（点击添加）
           <Select
             v-model="courseSelect"
             @on-change="getSelectCourse"
             placeholder="请选择课程"
             filterable
           >
-            <Option v-for="(item,idx) in transCourseData" :disabled="item.disable" :key="idx" :value="item.name" :label="item.name"></Option>
+            <Option
+              v-for="(item,idx) in transCourseData"
+              :disabled="item.disable"
+              :key="idx"
+              :value="item.name"
+              :label="item.name"
+            ></Option>
           </Select>
         </i-col>
       </Row>
@@ -37,7 +43,9 @@
           >
             <CellGroup>
               <template v-if="nowClassCourse[0]">
-                <Cell :title="item.course" v-for="(item, idx) in nowClassCourse" :key="idx"/>
+                <Cell :title="item.course" v-for="(item, idx) in nowClassCourse" :key="idx">
+                  <Button slot="extra" type="error" size="default" @click="courseDelete(item.course)">删除</Button>
+                </Cell>
               </template>
               <Cell title="空" v-else/>
             </CellGroup>
@@ -50,7 +58,6 @@
 
 <script>
 import adminModel from "@/api/admin.js";
-// import { deepClone } from '@/libs/tools.js';
 
 export default {
   data () {
@@ -68,6 +75,24 @@ export default {
     }
   },
   methods: {
+    //  删除已经关联的课程
+    courseDelete(val) {
+      console.log('-----------');
+      console.log({classN: this.classSelect, courseN: val});
+      adminModel.deleteCourseByClass({classN: this.classSelect, courseN: val}).then((res) => {
+        if (res.retcode === 0) {
+          this.$Notice.success({
+            title: "删除成功"
+          });
+          //  更新数据
+          this.getCourseByClass(this.classSelect);
+        } else {
+          this.$Notice.error({
+            title: "删除失败，稍后重试"
+          });
+        }
+      });
+    },
     // 获取所有的班级
     getClass () {
       adminModel.getClass().then((res) => {
@@ -96,7 +121,7 @@ export default {
       });
     },
     //  为指定的班级添加课程
-    addCourseByClass(val) {
+    addCourseByClass (val) {
       adminModel.addCourseByClass({ classN: this.classSelect, courseN: val }).then((res) => {
         if (res.retcode === 0) {
           this.$Notice.success({
@@ -124,7 +149,7 @@ export default {
       // console.log(val);
     },
     //  根据课程名字判断当前班级是否存在
-    hasCourse(name) {
+    hasCourse (name) {
       return this.nowClassCourse.find((elem) => elem.course === name);
     }
 

@@ -1,5 +1,6 @@
 <template>
   <Card :bordered="false" shadow>
+    <p slot="title" style="font-size: 20px">实验室管理</p>
     <div class="lab-container">
       <Button type="primary" icon="md-add" @click="addModal = true">点击添加实验室</Button>
 

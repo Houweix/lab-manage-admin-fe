@@ -1,6 +1,6 @@
 <template>
   <div class="admin-container">
-    <Button type="primary" icon="md-add" @click="addModal = true">点击添加一条记录</Button>
+    <Button type="primary" icon="md-add" @click="handleAddOne">点击添加一条记录</Button>
     <Table :columns="columns" :data="transAdminData" style="margin-top: 10px;">
       <!-- 插槽，显示每行的编辑功能 -->
       <template slot-scope="{ row }" slot="action">
@@ -111,6 +111,11 @@ export default {
     }
   },
   methods: {
+    handleAddOne() {
+      this.addForm.name = '';
+      this.addForm.password = '';
+      this.addModal = true;
+    },
     //  点击删除一条信息
     adminDelete (row) {
       this.$Modal.confirm({

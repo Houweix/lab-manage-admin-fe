@@ -292,7 +292,7 @@ export default {
       if (this.courseData[0]) {
         this.courseData.forEach((elem, idx) => {
           data.push(deepClone(elem));
-          data[idx].lab_id = this.getNameById(data[idx].lab_id) ? this.getNameById(data[idx].lab_id) : data[idx].lab_id;
+          data[idx].lab_id = this.getNameById(data[idx].lab_id) ? this.getNameById(data[idx].lab_id) : '未安排';
         });
       }
       return data;

@@ -7,20 +7,6 @@
     class="login-container"
     @keydown.enter.native="handleSubmit"
   >
-    <!-- <FormItem prop="username" style="width: 90%;" label="工号">
-      <i-input v-model="form.username" size="large" placeholder="请输入用户名">
-        <span slot="prepend">
-          <Icon :size="16" type="ios-person"></Icon>
-        </span>
-      </i-input>
-    </FormItem>
-    <FormItem prop="password" style="width: 90%;" label="密码">
-      <i-input type="password" size="large" v-model="form.password" placeholder="请输入密码">
-        <span slot="prepend">
-          <Icon :size="14" type="md-lock"></Icon>
-        </span>
-      </i-input>
-    </FormItem>-->
     <div class="form-container">
       <div class="panda">
         <div class="ear"></div>
@@ -121,24 +107,6 @@ export default {
     }
   },
   mounted () {
-    // $('#password').focusin(function() {
-    //   $('form').addClass('up');
-    // });
-    // $('#password').focusout(function() {
-    //   $('form').removeClass('up');
-    // });
-
-    // Panda Eye move
-    // $(document).on('mousemove', function(event) {
-    //   var dw = $(document).width() / 15;
-    //   var dh = $(document).height() / 15;
-    //   var x = event.pageX / dw;
-    //   var y = event.pageY / dh;
-    //   $('.eye-ball').css({
-    //     width: x,
-    //     height: y
-    //   });
-    // });
   },
   methods: {
     // 处理登录
